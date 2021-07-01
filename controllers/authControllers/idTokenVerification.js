@@ -4,7 +4,7 @@ exports.idTokenVerification = (req, res, next) => {
   console.log('This is body', req.body);
   admin
     .auth()
-    .verifyIdToken(req.body.data.idToken)
+    .verifyIdToken(req.body.idToken)
     .then(decodedToken => {
       const uid = decodedToken.uid;
       console.log('Id token verified');
