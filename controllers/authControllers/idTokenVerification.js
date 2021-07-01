@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-exports.idTokenVerification = (req, res) => {
+exports.idTokenVerification = (req, res, next) => {
   // res.send('POST request to the homepage');
   console.log('This is body', req.body);
   admin
@@ -8,7 +8,8 @@ exports.idTokenVerification = (req, res) => {
     .then(decodedToken => {
       const uid = decodedToken.uid;
       console.log('Id token verified');
-      res.send({ status: true });
+      // res.send({ status: true });
+      next();
     })
     .catch(error => {
       // Handle error
