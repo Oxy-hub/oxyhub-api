@@ -10,8 +10,8 @@ exports.generateTokens = (req, res, next) => {
   const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
 
   //Sending back HTTPonly cookie in response object
-  res.cookie('atk', accessToken, { httpOnly: true });
-  res.cookie('rtk', refreshToken, { httpOnly: true });
+  res.cookie('ATK', accessToken, { httpOnly: true });
+  res.cookie('RTK', refreshToken, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
   res.sendStatus(200);
 
   next();
