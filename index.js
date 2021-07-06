@@ -4,7 +4,20 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const admin = require('firebase-admin');
 const authRoutes = require('./routes/authRoutes');
+const mongoose = require('mongoose');
 require('dotenv').config();
+console.log('CONNECTING TO DATABASE...');
+mongoose
+  .connect(process.env.CONNECT_MONGO, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('CONNECTED TO DB!');
+  })
+  .catch(err => {
+    console.log('CONNECTION FAILED! TRY AGAIN!');
+  });
 
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
