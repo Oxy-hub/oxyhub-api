@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { generateAccessToken, generateRefreshToken } = require('../../utils/tokenGenerator');
 exports.generateTokens = (req, res, next) => {
-  const payload = { message: 'Id token verified' };
+  const payload = { data: req.user.phone_number };
 
   //Access token generation using jsonwebtoken
   const accessToken = generateAccessToken(payload);
@@ -16,7 +16,6 @@ exports.generateTokens = (req, res, next) => {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     secure: true,
   });
-  res.sendStatus(200);
-
-  next();
+  console.log('user as payload', req.user);
+  res.send(req.user);
 };

@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   phone_number: {
     type: Number,
-    min: 10,
-    max: 10,
     required: true,
   },
   first_name: {
