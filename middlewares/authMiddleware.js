@@ -1,16 +1,16 @@
-const jwt = require('jsonwebtoken');
+const tokenVerifier = require('../utils/tokenVerifier');
 const authMiddleware = (req, res, next) => {
-  try {
-    const verified = jwt.verify(req.cookies.ATK, process.env.ACCESS_TOKEN_SECRET, {
-      audience: 'oxyhub-api',
-      algorithms: ['HS256'],
-    });
-    req.body.user = verified.payload.message;
-    next();
-  } catch (err) {
-    //error message
-    res.sendStatus(401);
-  }
+	try {
+		const {ATK: accessToken} = req.cookies;
+		const payload = tokenVerifier(accessToken, 'ACCESS');
+		req.user = payload;
+		next();
+	} catch (err) {
+		//error message
+		console.log('Authorization Failed');
+		console.log(err);
+		res.sendStatus(401);
+	}
 };
 
 module.exports = authMiddleware;
