@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 exports.generateAccessToken = payload => {
-  const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: 120,
+  const accessToken = jwt.sign(payload, 'secret', {
+    expiresIn: '1d',
     audience: 'oxyhub-api',
     algorithm: 'HS256',
   });
@@ -9,7 +9,7 @@ exports.generateAccessToken = payload => {
 };
 
 exports.generateRefreshToken = payload => {
-  const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+  const refreshToken = jwt.sign(payload, 'secret', {
     expiresIn: '7d',
     audience: 'oxyhub-api',
     algorithm: 'HS256',
