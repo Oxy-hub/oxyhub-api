@@ -1,8 +1,10 @@
-const { idTokenVerification } = require('./idTokenVerification');
+const { getAccessToken } = require('./getAccessToken');
 const { generateTokens } = require('./generateTokens');
 const { checkDatabase } = require('./checkDatabase');
+const { getUser } = require('./getUser');
 module.exports = {
-  idTokenVerification,
+  getAccessToken,
+  getUser,
   generateTokens,
   checkDatabase,
 };
