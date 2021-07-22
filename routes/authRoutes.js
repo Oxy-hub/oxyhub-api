@@ -9,6 +9,12 @@ const authControllers = require('../controllers/authControllers');
 // 	authControllers.generateTokens
 // );
 
-router.get('/github', authControllers.getAccessToken, authControllers.getUser);
+router.get(
+  '/github',
+  authControllers.getAccessToken,
+  authControllers.getUser,
+  authControllers.checkDatabase,
+  authControllers.generateTokens
+);
 
 module.exports = router;

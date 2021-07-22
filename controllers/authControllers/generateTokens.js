@@ -1,21 +1,25 @@
-const {
-	generateAccessToken,
-	generateRefreshToken,
-} = require('../../utils/tokenGenerator');
+const { generateAccessToken, generateRefreshToken } = require('../../utils/tokenGenerator');
+const { v4: uuidv4 } = require('uuid');
 exports.generateTokens = (req, res, next) => {
-	//Access token generation using jsonwebtoken
-	const accessToken = generateAccessToken(req.user);
+  try {
+    //Access token generation using jsonwebtoken
+    const accessToken = generateAccessToken({ email: req.user.email });
 
-	//Refresh token generation using jsonwebtoken
-	const refreshToken = generateRefreshToken(req.user);
+    //Creating the random jti
+    const jti = uuidv4();
 
-	//Sending back HTTPonly cookie in response object
-	res.cookie('ATK', accessToken, {httpOnly: true, secure: true});
-	res.cookie('RTK', refreshToken, {
-		httpOnly: true,
-		maxAge: 7 * 24 * 60 * 60 * 1000,
-		secure: true,
-	});
-	console.log('user as payload', req.user);
-	res.send(req.user);
+    //Refresh token generation using jsonwebtoken
+    const refreshToken = generateRefreshToken({ jti, email: req.user.email });
+
+    //Sending back HTTPonly cookie in response object
+    res
+      .cookie('RTK', refreshToken, {
+        httpOnly: true,
+        maxAge: 2 * 24 * 60 * 60 * 1000,
+        secure: true,
+      })
+      .send({ accessToken, user: req.user });
+  } catch (err) {
+    console.log('This error is from generateTokens : ', err);
+  }
 };

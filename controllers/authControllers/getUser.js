@@ -22,9 +22,13 @@ exports.getUser = async (req, res, next) => {
       getUserEmail(access_token),
     ]);
 
-    console.log(user.data);
-    console.log(email.data);
-    res.sendStatus(200);
+    if (email.data[0].verified) {
+      req.user = {
+        name: user.data.name,
+        email: email.data[0].email,
+      };
+    }
+    next();
   } catch (err) {
     console.log('This is error during fetching user data : ', err);
     res.sendStatus(400);

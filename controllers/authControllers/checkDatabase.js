@@ -1,28 +1,30 @@
 const User = require('../../models/user');
 
 exports.checkDatabase = async (req, res, next) => {
-	try {
-		const query = await User.findOne({phone_number: req.phoneNumber}).exec();
+  try {
+    const query = await User.findOne({ email: req.user.email }).exec();
 
-		if (query) {
-			console.log('query', query);
-			req.user = {
-				phone_number: query.phone_number,
-				first_name: query.first_name,
-				last_name: query.last_name,
-				id_type: query.id_type,
-				id_number: query.id_number,
-			};
-		} else {
-			const newUser = new User({phone_number: req.phoneNumber});
-			await newUser.save();
-			req.user = newUser.phone_number;
-		}
+    if (query) {
+      console.log('query', query);
+      req.user = {
+        email: query.email,
+        name: query.name,
+        id_type: query.id_type,
+        id_number: query.id_number,
+      };
+    } else {
+      const newUser = new User({ email: req.user.email, name: req.user.name });
+      await newUser.save();
+      req.user = {
+        email: newUser.email,
+        name: newUser.name,
+      };
+    }
 
-		next();
-	} catch (err) {
-		//Error message
-		console.log('Error from checkDatabase', err);
-		res.sendStatus(400);
-	}
+    next();
+  } catch (err) {
+    //Error message
+    console.log('Error from checkDatabase', err);
+    res.sendStatus(400);
+  }
 };
