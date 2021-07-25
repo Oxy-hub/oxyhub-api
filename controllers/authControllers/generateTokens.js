@@ -1,43 +1,36 @@
-const { generateAccessToken, generateRefreshToken } = require('../../utils/tokenGenerator');
-const { v4: uuidv4 } = require('uuid');
-const User = require('../../models/user');
-const redis = require('redis');
-const client = redis.createClient();
-exports.generateTokens = (req, res, next) => {
-  try {
-    //Access token generation using jsonwebtoken
-    const accessToken = generateAccessToken({ email: req.user.email });
+const {
+	generateAccessToken,
+	generateRefreshToken,
+} = require('../../utils/helpers/tokenGeneratorHelpers');
+const {storeRefreshToken} = require('../../utils/helpers/redisTokenHelpers');
+const {v4: uuidv4} = require('uuid');
 
-    //Creating the random jti
-    const jti = uuidv4();
+exports.generateTokens = async (req, res) => {
+	try {
+		//Creating the random ungusseable string
+		const jti = uuidv4();
 
-    //Refresh token generation using jsonwebtoken
-    const refreshToken = generateRefreshToken({ jti, email: req.user.email });
+		//Access and refresh token generation using jsonwebtoken
+		const accessToken = generateAccessToken({email: req.user.email});
+		const refreshToken = generateRefreshToken({jti, id: req.user_id});
 
-    //Storing refresh token in Redis
-    client.set(
-      `${req.user.user_id}:${jti}`,
-      0,
-      'EX',
-      parseInt(process.env.REDIS_EXPIRY),
-      (err, response) => {
-        console.log('Redis response', response);
-        client.keys('*', (err, res) => {
-          if (err) console.log('Redis error from get', err);
-          console.log('This is keys response', res);
-        });
-        if (err) console.log('Redis error', err);
-        //Sending back HTTPonly cookie in response object
-        res
-          .cookie('RTK', refreshToken, {
-            httpOnly: true,
-            maxAge: 2 * 24 * 60 * 60 * 1000,
-            secure: true,
-          })
-          .send({ accessToken, user: req.user });
-      }
-    );
-  } catch (err) {
-    console.log('This error is from generateTokens : ', err);
-  }
+		// Store the JTI in redis as a key in the format userid:jti
+		await storeRefreshToken(req.user_id, jti);
+
+		// Set cookies and send back the response
+		res
+			.cookie('RTK', refreshToken, {
+				httpOnly: true,
+				maxAge: process.env.REFRESH_TOKEN_EXPIRY_3D_MS,
+				secure: true,
+			})
+			.send({
+				accessToken,
+				isAuthenticated: !req.isInitial,
+				isInitial: req.isInitial,
+				user: req.user,
+			});
+	} catch (err) {
+		console.log('This error is from generateTokens : ', err);
+	}
 };

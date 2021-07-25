@@ -1,24 +1,29 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    uppercase: true,
-    trim: true,
-  },
-  id_type: {
-    type: String,
-    trim: true,
-    enum: ['Aadhar', 'Driving Licence', 'Pan Card', 'Passport', 'Voter Id Card'],
-  },
-  id_number: {
-    type: String,
-    trim: true,
-  },
+	email: {
+		type: String,
+		required: true,
+	},
+	first_name: {
+		type: String,
+		uppercase: true,
+		trim: true,
+	},
+	middle_name: {
+		type: String,
+		uppercase: true,
+		trim: true,
+	},
+	last_name: {
+		type: String,
+		uppercase: true,
+		trim: true,
+	},
+	isInitial: {
+		type: Boolean,
+		default: true,
+	},
 });
 
 const User = mongoose.model('User', userSchema);
