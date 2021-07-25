@@ -7,6 +7,7 @@ exports.checkDatabase = async (req, res, next) => {
     if (query) {
       console.log('query', query);
       req.user = {
+        user_id: query._id,
         email: query.email,
         name: query.name,
         id_type: query.id_type,
