@@ -4,7 +4,6 @@ const {
 	deleteRefreshToken,
 	findIsInitial,
 } = require('../../utils/helpers/redisHelpers');
-const {token} = require('morgan');
 exports.validateRefreshToken = async (req, res, next) => {
 	try {
 		const {RTK} = req.cookies;
