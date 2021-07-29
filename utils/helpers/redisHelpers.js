@@ -20,11 +20,12 @@ exports.storeRefreshToken = async (user_id, token_id) => {
 
 exports.findRefreshToken = async (user_id, token_id) => {
 	const response = await get(constructKey(user_id, token_id));
-	return response;
+	return response === '0' ? true : false;
 };
 
 exports.deleteRefreshToken = async (user_id, token_id) => {
-	await del(constructKey(user_id, token_id));
+	const response = await del(constructKey(user_id, token_id));
+	return response === '1' ? 'Success' : null;
 };
 
 exports.setIsInitial = async user_id => {
@@ -33,5 +34,5 @@ exports.setIsInitial = async user_id => {
 
 exports.findIsInitial = async user_id => {
 	const response = await get(`${user_id}:initial`);
-	return response;
+	return response ? true : false;
 };

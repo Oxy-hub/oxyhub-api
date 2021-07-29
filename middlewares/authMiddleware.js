@@ -8,7 +8,7 @@ const authMiddleware = async (req, res, next) => {
 		// Verify whether access_token is valid or not
 		const {id} = await tokenVerifier(access_token, 'ACCESS');
 
-		// Check whether access_token is in blacklist
+		// Check whether access_token is in redis blacklist
 
 		// Get isInitial from redis
 		const isInitial = (await findIsInitial(id)) ? true : false;
