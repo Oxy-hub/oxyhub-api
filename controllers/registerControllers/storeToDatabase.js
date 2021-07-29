@@ -2,7 +2,7 @@ const User = require('../../models/user');
 const purify = require('../../utils/xssCheck');
 exports.storeToDatabase = async (req, res, next) => {
   try {
-    if (!req.user && !req.user.id_number === undefined) {
+    if (!req.user.id_number === undefined) {
       throw new Error();
     }
     const user = purify(req.body);
