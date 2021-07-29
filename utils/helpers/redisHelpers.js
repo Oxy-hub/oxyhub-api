@@ -24,8 +24,7 @@ exports.findRefreshToken = async (user_id, token_id) => {
 };
 
 exports.deleteRefreshToken = async (user_id, token_id) => {
-	const response = await del(constructKey(user_id, token_id));
-	return response === '1' ? 'Success' : null;
+	await del(constructKey(user_id, token_id));
 };
 
 exports.setIsInitial = async user_id => {

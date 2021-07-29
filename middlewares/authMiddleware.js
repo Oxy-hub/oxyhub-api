@@ -11,11 +11,10 @@ const authMiddleware = async (req, res, next) => {
 		// Check whether access_token is in redis blacklist
 
 		// Get isInitial from redis
-		const isInitial = (await findIsInitial(id)) ? true : false;
+		req.isInitial = await findIsInitial(id);
 
-		// Attach user id and isInitial to the request object
+		// Attach user id to the request object
 		req.user_id = id;
-		req.isInitial = isInitial;
 
 		console.log('Authorization Successful');
 		next();

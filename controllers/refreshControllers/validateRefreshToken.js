@@ -10,13 +10,12 @@ exports.validateRefreshToken = async (req, res, next) => {
 		// Try to verify the refresh token's validity
 		const {jti, id} = tokenVerifier(RTK, 'REFRESH');
 
-		//Check for the userid:jti key in redis, will return 0 if present, otherwise null
+		//Check for the userid:jti key in redis, will return true if present
 		const response = await findRefreshToken(id, jti);
 		if (!response) throw new Error('RTK missing in redis');
 
 		//Deleting the corresponding userid:jti key in redis
 		const del = await deleteRefreshToken(id, jti);
-		if (del) throw new Error('RTK failed to be deleted');
 
 		// Try to find if user is set as an initial user in redis
 		req.isInitial = await findIsInitial(id);
