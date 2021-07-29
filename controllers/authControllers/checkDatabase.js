@@ -1,28 +1,26 @@
 const User = require('../../models/user');
-const { setIsInitial } = require('../../utils/helpers/redisHelpers');
+const {setIsInitial} = require('../../utils/helpers/redisHelpers');
 exports.checkDatabase = async (req, res, next) => {
-  try {
-    let user = await User.findOne({ email: req.user.email }).exec();
+	try {
+		let user = await User.findOne({email: req.user.email}).exec();
 
-    if (user) {
-      console.log('User Exists in Database : ', user);
-    } else {
-      user = new User(req.user);
-      await user.save();
-    }
+		// Store the user in the database if the user does not exist in the db
+		if (!user) {
+			user = new User(req.user);
+			await user.save();
+		}
 
-    req.isInitial = user.isInitial;
-    req.user_id = user._id;
+		// Attach the isInitial and the user id to the req object
+		req.isInitial = user.isInitial;
+		req.user_id = user._id;
 
-    //Storing the registration status of the user in redis DB
-    if (user.isInitial) {
-      await setIsInitial(user._id, user.isInitial);
-    }
+		//Store userid:inital key in redis(if true) to prevent further database lookups during refresh
+		user.isInitial && (await setIsInitial(user._id));
 
-    next();
-  } catch (err) {
-    //Error message
-    console.log('Error from checkDatabase', err);
-    res.sendStatus(400);
-  }
+		next();
+	} catch (err) {
+		//Error message
+		console.log('Error from checkDatabase', err);
+		res.sendStatus(400);
+	}
 };
