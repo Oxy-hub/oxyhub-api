@@ -6,7 +6,7 @@ const authMiddleware = async (req, res, next) => {
 		const access_token = authorization.split(' ')[1];
 
 		// Verify whether access_token is valid or not
-		const {id} = await tokenVerifier(access_token, 'ACCESS');
+		const {id} = tokenVerifier(access_token, 'ACCESS');
 
 		// Check whether access_token is in redis blacklist
 

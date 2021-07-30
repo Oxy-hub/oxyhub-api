@@ -1,5 +1,8 @@
 const User = require('../../models/user');
-const {setIsInitial} = require('../../utils/helpers/redisHelpers');
+const {
+	setIsInitial,
+	deleteIsInitial,
+} = require('../../utils/helpers/redisHelpers');
 exports.checkDatabase = async (req, res, next) => {
 	try {
 		let user = await User.findOne({email: req.user.email}).exec();
@@ -14,8 +17,10 @@ exports.checkDatabase = async (req, res, next) => {
 		req.isInitial = user.isInitial;
 		req.user_id = user._id;
 
-		//Store userid:inital key in redis(if true) to prevent further database lookups during refresh
-		user.isInitial && (await setIsInitial(user._id));
+		//Store userid:inital key in redis(if true otherwise delete) to prevent further database lookups during refresh
+		user.isInitial
+			? await setIsInitial(user._id)
+			: await deleteIsInitial(user._id);
 
 		next();
 	} catch (err) {

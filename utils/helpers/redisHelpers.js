@@ -31,6 +31,10 @@ exports.setIsInitial = async user_id => {
 	await set(`${user_id}:initial`, true);
 };
 
+exports.deleteIsInitial = async user_id => {
+	await del(`${user_id}:initial`, true);
+};
+
 exports.findIsInitial = async user_id => {
 	const response = await get(`${user_id}:initial`);
 	return response ? true : false;
