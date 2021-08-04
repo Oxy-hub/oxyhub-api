@@ -5,6 +5,7 @@ const set = promisify(client.set).bind(client);
 const get = promisify(client.get).bind(client);
 const del = promisify(client.del).bind(client);
 const sadd = promisify(client.sadd).bind(client);
+const smembers = promisify(client.smembers).bind(client);
 const expire = promisify(client.expire).bind(client);
 
 const constructKey = (user_id, token_id) => {
@@ -29,7 +30,7 @@ exports.setIsInitial = async user_id => {
 };
 
 exports.deleteIsInitial = async user_id => {
-  await del(`${user_id}:initial`, true);
+  await del(`${user_id}:initial`);
 };
 
 exports.findIsInitial = async user_id => {
@@ -40,4 +41,10 @@ exports.findIsInitial = async user_id => {
 exports.blacklistToken = async (user_id, token) => {
   await sadd(user_id, token);
   await expire(user_id, process.env.ACCESS_TOKEN_EXPIRY_5M_MS);
+};
+
+exports.checkBlacklist = async (user_id, token) => {
+  const response = await smembers(user_id);
+
+  return response.includes(token);
 };
