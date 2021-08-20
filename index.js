@@ -16,6 +16,8 @@ require('dotenv').config();
 require('./utils/db/mongodb');
 require('./utils/db/redis');
 
+const PORT = process.env.PORT || 8000;
+
 admin.initializeApp({
 	credential: admin.credential.applicationDefault(),
 });
@@ -46,6 +48,6 @@ app.use('/refresh', refreshRoutes);
 app.use('/logout', logoutRoutes);
 app.all('/*', (_, res) => res.sendStatus(404));
 
-app.listen(8000, () => {
-	console.log('LISTENING ON PORT 8000');
+app.listen(PORT, () => {
+	console.log(`LISTENING ON PORT ${PORT}`);
 });
