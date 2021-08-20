@@ -11,6 +11,8 @@ const registerRoutes = require('./routes/registerRoutes');
 const logoutRoutes = require('./routes/logoutRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
 const protectedRoutes = require('./utils/protectedRoutes');
+
+const handleError = require('./middlewares/handleError');
 require('dotenv').config();
 
 require('./utils/db/mongodb');
@@ -47,6 +49,9 @@ app.use('/register', registerRoutes);
 app.use('/refresh', refreshRoutes);
 app.use('/logout', logoutRoutes);
 app.all('/*', (_, res) => res.sendStatus(404));
+
+/** ERROR HANDLER */
+app.use(handleError);
 
 app.listen(PORT, () => {
   console.log(`LISTENING ON PORT ${PORT}`);
