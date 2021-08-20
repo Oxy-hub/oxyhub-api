@@ -8,7 +8,7 @@ mongoose
   .then(() => {
     console.log('MONGODB CLIENT IS READY!');
   })
-  .catch(err => {
+  .catch(() => {
     // console.log(err);
     console.log('MONGO DB CONNECTION FAILED! TRY AGAIN!');
   });

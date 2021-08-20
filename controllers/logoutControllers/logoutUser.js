@@ -4,7 +4,7 @@ const {
 } = require('../../utils/helpers/redisHelpers');
 const tokenVerifier = require('../../utils/tokenVerifier');
 
-exports.logoutUser = async (req, res, _) => {
+exports.logoutUser = async (req, res) => {
   try {
     const { RTK } = req.cookies;
     const { authorization } = req.headers;

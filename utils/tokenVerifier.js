@@ -10,9 +10,9 @@ module.exports = (token, type) => {
       secret = process.env.REFRESH_TOKEN_SECRET;
       break;
     default:
-      secret = null;
+      secret = '';
   }
-  return jwt.verify(token, 'secret', {
+  return jwt.verify(token, secret, {
     audience: 'oxyhub-api',
     algorithm: 'HS256'
   });

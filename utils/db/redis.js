@@ -10,7 +10,7 @@ client.on('ready', () => {
   console.log('REDIS CLIENT IS READY!');
 });
 
-client.on('error', err => {
+client.on('error', () => {
   // console.log(err);
   console.log('REDIS CONNECTION FAILED! TRY AGAIN!');
 });
