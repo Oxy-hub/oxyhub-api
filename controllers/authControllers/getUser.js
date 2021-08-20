@@ -1,38 +1,36 @@
 const axios = require('axios');
 
-//call to get back the user
-const getUserAccount = access_token => {
-  return axios.get('https://api.github.com/user', {
-    headers: { Authorization: `token ${access_token}` }
+// call to get back the user
+const getUserAccount = accessToken =>
+  axios.get('https://api.github.com/user', {
+    headers: { Authorization: `token ${accessToken}` }
   });
-};
 
-//call to get back the user email
-const getUserEmail = access_token => {
-  return axios.get('https://api.github.com/user/emails', {
-    headers: { Authorization: `token ${access_token}` }
+// call to get back the user email
+const getUserEmail = accessToken =>
+  axios.get('https://api.github.com/user/emails', {
+    headers: { Authorization: `token ${accessToken}` }
   });
-};
 
 exports.getUser = async (req, res, next) => {
   try {
-    const access_token = req.access_token;
+    const { accessToken } = req;
     const [user, email] = await Promise.all([
-      getUserAccount(access_token),
-      getUserEmail(access_token)
+      getUserAccount(accessToken),
+      getUserEmail(accessToken)
     ]);
 
     if (!email.data[0].verified) throw new Error();
 
     const name = user.data.name.split(' ');
-    const first_name = name[0];
-    const last_name = name[name.length - 1];
-    const middle_name = name.splice(1, name.length - 2).join(' ');
+    const firstName = name[0];
+    const lastName = name[name.length - 1];
+    const middleName = name.splice(1, name.length - 2).join(' ');
 
     req.user = {
-      first_name,
-      middle_name,
-      last_name,
+      firstName,
+      middleName,
+      lastName,
       email: email.data[0].email
     };
 

@@ -1,6 +1,7 @@
 const User = require('../../models/user');
 const purify = require('../../utils/xssCheck');
 const deleteIsInitial = require('../../utils/helpers/redisHelpers');
+
 exports.storeToDatabase = async (req, res, next) => {
   try {
     if (!req.user_id || req.isInitial === false) {

@@ -16,16 +16,15 @@ exports.checkDatabase = async (req, res, next) => {
 
     // Attach the isInitial and the user id to the req object
     req.isInitial = user.isInitial;
-    req.user_id = user._id;
+    req.user_id = user.id;
 
     // Store userid:inital key in redis(if true otherwise delete) to prevent further database lookups during refresh
-    user.isInitial
-      ? await setIsInitial(user._id)
-      : await deleteIsInitial(user._id);
+    if (user.isInitial) await setIsInitial(user.id);
+    else await deleteIsInitial(user.id);
 
     next();
   } catch (err) {
-    //Error message
+    // Error message
     console.log('Error from checkDatabase', err);
     res.sendStatus(400);
   }

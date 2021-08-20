@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
+    "check-lint": "npx eslint .",
+    "check-prettier": "npx prettier check .",
+    "test": "npm run check-lint && npm run check-prettier",
     "prepare": "husky install"
   },
   "author": "",
@@ -32,9 +35,5 @@
     "husky": "^7.0.0",
     "lint-staged": "^11.1.2",
     "prettier": "2.3.2"
-  },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js}": "prettier --write"
   }
 }
