@@ -19,19 +19,19 @@ require('./utils/db/redis');
 const PORT = process.env.PORT || 8000;
 
 admin.initializeApp({
-	credential: admin.credential.applicationDefault(),
+  credential: admin.credential.applicationDefault()
 });
 
 /** 3RD PARTY MIDDLEWARES */
 app.use(
-	morgan(':method :url :status :res[content-length] - :response-time ms')
+  morgan(':method :url :status :res[content-length] - :response-time ms')
 );
 
 app.use(
-	cors({
-		origin: ['http://localhost:3000', 'https://oxyhub.netlify.app'],
-		credentials: true,
-	})
+  cors({
+    origin: ['http://localhost:3000', 'https://oxyhub.netlify.app'],
+    credentials: true
+  })
 );
 
 app.use(cookieParser());
@@ -49,5 +49,5 @@ app.use('/logout', logoutRoutes);
 app.all('/*', (_, res) => res.sendStatus(404));
 
 app.listen(PORT, () => {
-	console.log(`LISTENING ON PORT ${PORT}`);
+  console.log(`LISTENING ON PORT ${PORT}`);
 });

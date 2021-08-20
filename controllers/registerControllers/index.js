@@ -1,4 +1,4 @@
-const {storeToDatabase} = require('./storeToDatabase');
+const { storeToDatabase } = require('./storeToDatabase');
 module.exports = {
-	storeToDatabase,
+  storeToDatabase
 };

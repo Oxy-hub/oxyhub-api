@@ -1,4 +1,7 @@
-const { deleteRefreshToken, blacklistToken } = require('../../utils/helpers/redisHelpers');
+const {
+  deleteRefreshToken,
+  blacklistToken
+} = require('../../utils/helpers/redisHelpers');
 const tokenVerifier = require('../../utils/tokenVerifier');
 
 exports.logoutUser = async (req, res, next) => {

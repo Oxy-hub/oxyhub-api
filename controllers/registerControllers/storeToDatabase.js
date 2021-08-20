@@ -9,7 +9,7 @@ exports.storeToDatabase = async (req, res, next) => {
       const user = purify(req.body);
       const query = await User.findByIdAndUpdate(req.user_id, user, {
         new: true,
-        lean: true,
+        lean: true
       });
       await deleteIsInitial(req.user_id);
       res.sendStatus(200);

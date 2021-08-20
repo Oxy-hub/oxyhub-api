@@ -6,5 +6,5 @@ module.exports = {
   getAccessToken,
   getUser,
   generateTokens,
-  checkDatabase,
+  checkDatabase
 };

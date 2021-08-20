@@ -1,5 +1,8 @@
 const tokenVerifier = require('../utils/tokenVerifier');
-const { findIsInitial, checkBlacklist } = require('../utils/helpers/redisHelpers');
+const {
+  findIsInitial,
+  checkBlacklist
+} = require('../utils/helpers/redisHelpers');
 const authMiddleware = async (req, res, next) => {
   try {
     const { authorization } = req.headers;

@@ -13,7 +13,12 @@ const constructKey = (user_id, token_id) => {
 };
 
 exports.storeRefreshToken = async (user_id, token_id) => {
-  await set(constructKey(user_id, token_id), 0, 'EX', process.env.REFRESH_TOKEN_EXPIRY_3D_MS);
+  await set(
+    constructKey(user_id, token_id),
+    0,
+    'EX',
+    process.env.REFRESH_TOKEN_EXPIRY_3D_MS
+  );
 };
 
 exports.findRefreshToken = async (user_id, token_id) => {
