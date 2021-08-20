@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "check-lint": "npx eslint .",
-    "check-prettier": "npx prettier check .",
+    "check-prettier": "npx prettier --check .",
     "test": "npm run check-lint && npm run check-prettier",
     "prepare": "husky install"
   },
