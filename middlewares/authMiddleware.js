@@ -1,4 +1,4 @@
-const tokenVerifier = require('../utils/tokenVerifier');
+const tokenVerifier = require('../utils/helpers/tokenVerifierHelper');
 const {
   findIsInitial,
   checkBlacklist

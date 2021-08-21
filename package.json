@@ -7,7 +7,8 @@
     "start": "nodemon index.js",
     "check-lint": "npx eslint .",
     "check-prettier": "npx prettier --check .",
-    "test": "npm run check-lint && npm run check-prettier",
+    "jest": "jest",
+    "test": "npm run check-lint && npm run check-prettier && npm run jest",
     "prepare": "husky install"
   },
   "author": "",
@@ -17,6 +18,7 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "dotenv-flow": "^3.2.0",
     "express": "^4.17.1",
     "firebase-admin": "^9.10.0",
     "jsonwebtoken": "^8.5.1",
@@ -32,8 +34,11 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.1",
+    "eslint-plugin-jest": "^24.4.0",
     "husky": "^7.0.0",
+    "jest": "^27.0.6",
     "lint-staged": "^11.1.2",
-    "prettier": "2.3.2"
+    "prettier": "2.3.2",
+    "supertest": "^6.1.6"
   }
 }

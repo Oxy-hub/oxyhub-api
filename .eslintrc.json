@@ -2,7 +2,8 @@
   "env": {
     "browser": true,
     "commonjs": true,
-    "es2021": true
+    "es2021": true,
+    "jest/globals": true
   },
   "extends": ["airbnb-base", "prettier"],
   "parserOptions": {
@@ -11,5 +12,6 @@
   "rules": {
     "no-console": "off",
     "no-unused-vars": ["error", { "args": "after-used" }]
-  }
+  },
+  "plugins": ["jest"]
 }

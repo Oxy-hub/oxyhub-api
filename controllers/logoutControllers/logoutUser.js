@@ -2,7 +2,7 @@ const {
   deleteRefreshToken,
   blacklistToken
 } = require('../../utils/helpers/redisHelpers');
-const tokenVerifier = require('../../utils/tokenVerifier');
+const tokenVerifier = require('../../utils/helpers/tokenVerifierHelper');
 const wrapAsync = require('../../utils/wrapAsync');
 
 exports.logoutUser = wrapAsync(async (req, res) => {
