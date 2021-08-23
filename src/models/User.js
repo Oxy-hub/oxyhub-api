@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     uppercase: true,
     trim: true
   },
-  isInitial: {
+  is_initial: {
     type: Boolean,
     default: true
   }

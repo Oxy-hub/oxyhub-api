@@ -1,4 +1,4 @@
-const User = require('../../models/user');
+const User = require('../../models/User');
 const purify = require('../../utils/xssCheck');
 const deleteIsInitial = require('../../utils/helpers/redisHelpers');
 const wrapAsync = require('../../utils/wrapAsync');
