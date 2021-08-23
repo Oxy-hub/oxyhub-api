@@ -1,11 +1,14 @@
 const express = require('express');
+const config = require('./config');
 const loaders = require('./loaders');
 
-module.exports = async () => {
+(async () => {
   const app = express();
   await loaders(app);
-  return app;
-};
+  app.listen(config.port, () => {
+    console.log(`LISTENING ON PORT ${config.port}`);
+  });
+})();
 
 // const express = require('express');
 // const cors = require('cors');

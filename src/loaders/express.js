@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const routes = require('../routes');
 const config = require('../config');
 
 module.exports = app => {
@@ -24,7 +25,8 @@ module.exports = app => {
   /** CUSTOM MIDDLEWARES */
   // app.use(protectedRoutes, authMiddleware);
 
-  /** ROUTES */
+  /** INITIALIZE ROUTES */
+  routes.init(app);
   //   app.use('/auth', authRoutes);
   //   app.use('/register', registerRoutes);
   //   app.use('/refresh', refreshRoutes);
@@ -33,4 +35,6 @@ module.exports = app => {
 
   /** ERROR HANDLER */
   //   app.use(handleError);
+
+  return app;
 };

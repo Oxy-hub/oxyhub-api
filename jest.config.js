@@ -1,4 +1,4 @@
 module.exports = {
-  setupFiles: ['dotenv-flow/config'],
+  setupFiles: ['dotenv/config'],
   collectCoverage: true
 };
