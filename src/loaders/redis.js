@@ -16,4 +16,6 @@ module.exports = async () => {
     console.log('REDIS CONNECTION FAILED! EXITING!');
     process.exit();
   });
+
+  return client;
 };

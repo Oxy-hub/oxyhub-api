@@ -1,5 +1,6 @@
 const axios = require('axios');
-const wrapAsync = require('../../utils/wrapAsync');
+
+const wrapAsync = require('../wrapAsync');
 const AppError = require('../../utils/AppError');
 
 // call to get back the user

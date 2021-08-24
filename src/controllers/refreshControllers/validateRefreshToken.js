@@ -4,7 +4,8 @@ const {
   deleteRefreshToken,
   findIsInitial
 } = require('../../utils/helpers/redisHelpers');
-const wrapAsync = require('../../utils/wrapAsync');
+
+const wrapAsync = require('../wrapAsync');
 const AppError = require('../../utils/AppError');
 
 exports.validateRefreshToken = wrapAsync(async (req, res, next) => {

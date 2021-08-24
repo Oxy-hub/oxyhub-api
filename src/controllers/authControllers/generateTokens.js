@@ -5,7 +5,7 @@ const {
 } = require('../../utils/helpers/tokenGeneratorHelpers');
 const { storeRefreshToken } = require('../../utils/helpers/redisHelpers');
 
-const wrapAsync = require('../../utils/wrapAsync');
+const wrapAsync = require('../wrapAsync');
 
 exports.generateTokens = wrapAsync(async (req, res) => {
   // Creating the random ungusseable string

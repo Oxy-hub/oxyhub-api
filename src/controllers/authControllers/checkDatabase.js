@@ -4,7 +4,7 @@ const {
   deleteIsInitial
 } = require('../../utils/helpers/redisHelpers');
 
-const wrapAsync = require('../../utils/wrapAsync');
+const wrapAsync = require('../wrapAsync');
 
 exports.checkDatabase = wrapAsync(async (req, res, next) => {
   let user = await User.findOne({ email: req.user.email }).exec();

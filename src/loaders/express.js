@@ -3,6 +3,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const routes = require('../routes');
+const middlewares = require('../middlewares');
+const errors = require('../errors');
 const config = require('../config');
 
 module.exports = app => {
@@ -23,7 +25,7 @@ module.exports = app => {
   app.use(express.json());
 
   /** CUSTOM MIDDLEWARES */
-  // app.use(protectedRoutes, authMiddleware);
+  middlewares.init(app);
 
   /** INITIALIZE ROUTES */
   routes.init(app);
@@ -34,7 +36,7 @@ module.exports = app => {
   //   app.all('/*', (_, res) => res.sendStatus(404));
 
   /** ERROR HANDLER */
-  //   app.use(handleError);
+  errors.init(app);
 
   return app;
 };

@@ -3,7 +3,8 @@ const {
   blacklistToken
 } = require('../../utils/helpers/redisHelpers');
 const tokenVerifier = require('../../utils/helpers/tokenVerifierHelper');
-const wrapAsync = require('../../utils/wrapAsync');
+
+const wrapAsync = require('../wrapAsync');
 
 exports.logoutUser = wrapAsync(async (req, res) => {
   const { RTK } = req.cookies;

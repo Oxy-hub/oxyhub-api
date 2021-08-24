@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "awilix": "^5.0.1",
     "axios": "^0.21.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
