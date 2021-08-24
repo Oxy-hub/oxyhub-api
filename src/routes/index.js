@@ -1,12 +1,10 @@
 const express = require('express');
-const register = require('./register');
+const user = require('./user');
 // const auth = require('./auth');
-
-const router = express.Router();
 
 const init = app => {
   // app.use('/auth', auth(router));
-  app.use('/register', register(router));
+  app.use('/user', user(express.Router()));
 };
 
 module.exports = { init };

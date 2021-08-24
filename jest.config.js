@@ -1,4 +1,3 @@
 module.exports = {
-  setupFiles: ['dotenv/config'],
-  collectCoverage: true
+  setupFiles: ['dotenv/config']
 };
