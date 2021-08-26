@@ -7,25 +7,20 @@ const { Container } = require('../loaders/awilix');
 
 const authMiddleware = async (req, res, next) => {
   try {
+    console.log('executing auth middleware...');
+    // Extract access token from header in request object
     const { authorization } = req.headers;
     const accessToken = authorization.split(' ')[1];
 
     // Verify whether access_token is valid or not
     const TokenService = Container.resolve('tokenService');
-    const payload = TokenService.verifyLogin(accessToken);
-    // const { id } = tokenVerifier(accessToken, 'ACCESS');
+    const { id, isInitial } = TokenService.verifyAccessToken(accessToken);
 
-    // // Check whether access_token is in redis blacklist
-    // const blacklistedToken = await checkBlacklist(id, accessToken);
-    // if (blacklistedToken) throw new Error('You Are Blocked!');
-
-    //
-    // req.isInitial = isInitial;
+    // Attach isInitial status  to request object
+    req.isInitial = isInitial;
 
     // Attach user id to the request object
-    req.userId = payload;
-
-    // console.log('Authorization Successful');
+    req.userId = id;
     next();
   } catch (err) {
     console.log('Authorization Failed');

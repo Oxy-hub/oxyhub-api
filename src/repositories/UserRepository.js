@@ -1,17 +1,21 @@
+const { promisify } = require('util');
+
 class UserRepository {
-  constructor(MongooseUserModel) {
-    this.MongooseUserModel = MongooseUserModel;
+  constructor({ mongooseUserModel, redisClient }) {
+    this.mongooseUserModel = mongooseUserModel;
+    this.redisClient = redisClient;
+    this.del = promisify(redisClient.del).bind(redisClient);
   }
 
-  async findByIdAndUpdate(id, userObject) {
-    try {
-      await this.MongooseUserModel.findByIdAndUpdate(id, userObject, {
-        new: true,
-        lean: true
-      });
-    } catch (e) {
-      throw new Error('[UserRepository]:[findByIdAndUpdate]');
-    }
+  async updateUser(id, userObject) {
+    await this.mongooseUserModel.findByIdAndUpdate(id, userObject, {
+      new: true,
+      lean: true
+    });
+  }
+
+  async deleteIsInitial(id) {
+    await this.del(`${id}:initial`);
   }
 }
 

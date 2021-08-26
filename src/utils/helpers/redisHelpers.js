@@ -38,7 +38,7 @@ exports.deleteIsInitial = async userId => {
 
 exports.findIsInitial = async userId => {
   const response = await get(`${userId}:initial`);
-  return !!response;
+  return response;
 };
 
 exports.blacklistToken = async (userId, token) => {
