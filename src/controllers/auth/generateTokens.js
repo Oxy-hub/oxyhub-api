@@ -22,8 +22,8 @@ exports.generateTokens = wrapAsync(async (req, res) => {
   res
     .cookie('RTK', refreshToken, {
       httpOnly: true,
-      maxAge: process.env.REFRESH_TOKEN_EXPIRY_3D_MS
-      // secure: true,
+      maxAge: process.env.REFRESH_TOKEN_EXPIRY_3D_MS,
+      secure: true
     })
     .send({
       accessToken,

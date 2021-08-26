@@ -1,6 +1,7 @@
+const errorHandler = require('./errorHandler');
+
 const init = app => {
-  // Do Something
-  console.log('In error', app);
+  app.use(errorHandler);
 };
 
 module.exports = { init };

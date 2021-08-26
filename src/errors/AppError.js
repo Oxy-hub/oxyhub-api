@@ -1,8 +1,12 @@
 class AppError extends Error {
-  constructor(message, status) {
+  constructor(httpStatus, message) {
     super();
     this.message = message;
-    this.status = status;
+    this.httpStatus = httpStatus;
+  }
+
+  static serverError() {
+    return { httpStatus: 500, message: 'Something Went Wrong!' };
   }
 }
 

@@ -19,14 +19,12 @@
 const AppError = require('../../errors/AppError');
 const { Container } = require('../../loaders/awilix');
 
-exports.registerUser = async (req, res) => {
-  if (!req.user_id || req.isInitial === false) {
-    throw new AppError(400, 'Unauthorised');
-  } else {
+exports.registerUser = (req, res) => {
+  if (req.userId && req.isInitial) {
     const UserService = Container.resolve('userService');
-
-    UserService.register(req.user_id, req.body);
-
-    res.sendStatus(200);
+    UserService.register(req.userId, req.body);
+  } else {
+    throw new AppError(401, 'Authentication Failed');
   }
+  res.sendStatus(200);
 };
