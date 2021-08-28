@@ -14,6 +14,11 @@ class UserRepository {
     });
   }
 
+  async readIsInitial(userId) {
+    const response = await this.get(`${userId}:initial`);
+    return response;
+  }
+
   async deleteIsInitial(id) {
     await this.del(`${id}:initial`);
   }

@@ -29,11 +29,11 @@ module.exports = app => {
 
   /** INITIALIZE ROUTES */
   routes.init(app);
-  //   app.use('/auth', authRoutes);
-  //   app.use('/register', registerRoutes);
-  //   app.use('/refresh', refreshRoutes);
-  //   app.use('/logout', logoutRoutes);
-  //   app.all('/*', (_, res) => res.sendStatus(404));
+  app.use((_, res) => {
+    res
+      .status(404)
+      .send({ httpStatus: 404, message: 'Resource could not be found!' });
+  });
 
   /** ERROR HANDLER */
   errors.init(app);

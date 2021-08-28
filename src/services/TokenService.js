@@ -3,8 +3,9 @@ const config = require('../config');
 const AppError = require('../errors/AppError');
 
 class TokenService {
-  constructor({ tokenRepository }) {
+  constructor({ tokenRepository, userRepository }) {
     this.tokenRepository = tokenRepository;
+    this.userRepository = userRepository;
   }
 
   verify(token, secret) {
@@ -15,21 +16,24 @@ class TokenService {
     });
   }
 
+  async isBlacklisted(id, token) {
+    // Check redis for blacklisted tokens
+    const isBlacklisted = await this.tokenRepository.readBlackList(id, token);
+    if (isBlacklisted) {
+      throw new Error();
+    } else {
+      return false;
+    }
+  }
+
   async verifyAccessToken(token) {
     try {
       const secret = config.tokens.accessTokenSecret;
       const { id } = this.verify(token, secret);
 
-      // Check redis for blacklisted tokens
-      const isBlacklisted = await this.tokenRepository.readBlackList(id, token);
-
       // If token is not blacklisted get isInitial status of the token
-      let isInitial = false;
-      if (!isBlacklisted) {
-        isInitial = await this.tokenRepository.readIsInitial(id);
-      } else {
-        throw new Error();
-      }
+      this.isBlacklisted(id, token);
+      const isInitial = await this.userRepository.readIsInitial(id);
       return { id, isInitial };
     } catch (e) {
       throw new AppError(401, 'Unauthorized!');

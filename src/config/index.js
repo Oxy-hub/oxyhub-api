@@ -12,7 +12,7 @@ module.exports = {
   },
   github: {
     clientId: process.env.GITHUB_CLIENT_ID,
-    githubClientSecret: process.env.GITHUB_CLIENT_SECRET
+    clientSecret: process.env.GITHUB_CLIENT_SECRET
   },
   tokens: {
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
