@@ -26,7 +26,7 @@ class GithubRepository {
     const response = await axios.get('https://api.github.com/user/emails', {
       headers: { Authorization: `token ${accessToken}` }
     });
-    return response.data.email;
+    return response.data[0];
   }
 }
 
