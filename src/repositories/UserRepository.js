@@ -6,6 +6,7 @@ class UserRepository {
     this.redisClient = redisClient;
     this.del = promisify(redisClient.del).bind(redisClient);
     this.set = promisify(redisClient.set).bind(redisClient);
+    this.get = promisify(redisClient.get).bind(redisClient);
   }
 
   async updateUser(id, userObject) {
@@ -26,17 +27,21 @@ class UserRepository {
     return newUser;
   }
 
-  async updateIsInitial(id) {
-    await this.set(`${id}:initial`, true);
+  constructInitialKey(id) {
+    return `${id}:initial`;
   }
 
-  async readIsInitial(userId) {
-    const response = await this.get(`${userId}:initial`);
+  async createIsInitialInRedis(id) {
+    await this.set(this.constructInitialKey(id), true);
+  }
+
+  async readIsInitialFromRedis(id) {
+    const response = await this.get(this.constructInitialKey(id));
     return response;
   }
 
-  async deleteIsInitial(id) {
-    await this.del(`${id}:initial`);
+  async deleteIsInitialFromRedis(id) {
+    await this.del(this.constructInitialKey(id));
   }
 }
 

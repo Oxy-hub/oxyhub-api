@@ -13,6 +13,7 @@ class UserService {
       const purified = xss(newObject[key]);
       newObject[key] = purified;
     });
+
     return user;
   }
 
@@ -27,36 +28,40 @@ class UserService {
   }
 
   async useGithubOAuth(code) {
-    const accessToken = await this.githubRepository.exchangeCodeForAccessToken(
-      code
-    );
+    try {
+      const accessToken =
+        await this.githubRepository.exchangeCodeForAccessToken(code);
 
-    const [name, email] = await Promise.all([
-      this.githubRepository.getUserProfile(accessToken),
-      this.githubRepository.getUserEmail(accessToken)
-    ]);
+      const [name, email] = await Promise.all([
+        this.githubRepository.getUserProfile(accessToken),
+        this.githubRepository.getUserEmail(accessToken)
+      ]);
 
-    const user = this.sanitizeName(name);
-    return { ...user, email };
+      const user = this.sanitizeName(name);
+      return { ...user, email };
+    } catch (e) {
+      throw AppError.serverError();
+    }
   }
 
   async login(userProfile) {
-    // Check if user already exists in database
-    let user = await this.userRepository.readUserByEmail(userProfile.email);
-
-    // Store the user in the database if the user does not exist in the db
-    if (!user) {
-      user = await this.userRepository.createUser(userProfile);
+    try {
+      // Check if user already exists in database
+      let user = await this.userRepository.readUserByEmail(userProfile.email);
+      // Store the user in the database if the user does not exist in the db
+      if (!user) {
+        user = await this.userRepository.createUser(userProfile);
+      }
+      // Store userid:inital key in redis(if true otherwise delete) to prevent further database lookups during refresh
+      if (user.isInitial) {
+        await this.userRepository.createIsInitialInRedis(user.id);
+      } else {
+        await this.userRepository.deleteIsInitialFromRedis(user.id);
+      }
+      return { isInitial: user.isInitial, userId: user.id };
+    } catch (e) {
+      throw AppError.serverError();
     }
-
-    // Store userid:inital key in redis(if true otherwise delete) to prevent further database lookups during refresh
-    if (user.isInitial) {
-      await this.userRepository.updateIsInitial(user.id);
-    } else {
-      await this.userRepository.deleteIsInitial(user.id);
-    }
-
-    return { isInitial: user.isInitial, userId: user.id };
   }
 
   async register(id, user) {
