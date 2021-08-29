@@ -1,8 +1,10 @@
 const awilix = require('awilix');
 const UserService = require('../services/UserService');
-const AuthService = require('../services/AuthService');
+const TokenService = require('../services/TokenService');
 const UserRepository = require('../repositories/UserRepository');
 const TokenRepository = require('../repositories/TokenRepository');
+const GithubRepository = require('../repositories/GithubRepository');
+const MongooseUserModel = require('../models/User');
 
 // Create the container and set the injectionMode to PROXY (which is also the default).
 const Container = awilix.createContainer({
@@ -12,9 +14,11 @@ const Container = awilix.createContainer({
 const awilixInit = ({ redisClient: redis }) => {
   Container.register({
     userService: awilix.asClass(UserService),
-    authService: awilix.asClass(AuthService),
+    tokenService: awilix.asClass(TokenService),
     userRepository: awilix.asClass(UserRepository),
     tokenRepository: awilix.asClass(TokenRepository),
+    githubRepository: awilix.asClass(GithubRepository),
+    mongooseUserModel: awilix.asValue(MongooseUserModel),
     redisClient: awilix.asValue(redis)
   });
 };

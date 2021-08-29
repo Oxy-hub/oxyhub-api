@@ -1,16 +1,19 @@
 const mongoose = require('mongoose');
 const config = require('../config');
+const logger = require('./logger');
 
 module.exports = async () => {
+  let mongooseConnection = null;
   try {
-    await mongoose.connect(config.mongo.url, {
+    mongooseConnection = await mongoose.connect(config.mongo.url, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
-    console.log('MONGODB CLIENT IS READY!');
+    logger.info('MONGODB CLIENT IS READY!');
   } catch (e) {
-    console.log('MONGO DB CONNECTION FAILED! EXITING!');
-    console.log(e);
+    logger.error('MONGO DB CONNECTION FAILED! EXITING!');
+    logger.error(e);
     process.exit();
   }
+  return mongooseConnection;
 };

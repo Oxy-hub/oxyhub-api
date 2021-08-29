@@ -1,5 +1,5 @@
 const auth = require('./auth');
-const protectedRoutes = require('../utils/protectedRoutes');
+const protectedRoutes = require('../utils/helpers/protectedRoutes');
 
 const init = app => {
   app.use(protectedRoutes, auth);
