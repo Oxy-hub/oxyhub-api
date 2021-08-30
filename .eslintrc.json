@@ -9,7 +9,6 @@
     "ecmaVersion": 12
   },
   "rules": {
-    "no-console": "off",
     "no-unused-vars": ["error", { "args": "after-used" }],
     "class-methods-use-this": "off"
   },
