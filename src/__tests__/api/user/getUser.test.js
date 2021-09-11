@@ -1,9 +1,9 @@
 const request = require('supertest');
 const express = require('express');
-const { awilixInit } = require('../../loaders/awilix');
-const expressLoader = require('../../loaders/express');
-const { authMiddleware } = require('../../middlewares/auth');
-const { mockReadUserById } = require('../../repositories/UserRepository');
+const { awilixInit } = require('../../../loaders/awilix');
+const expressLoader = require('../../../loaders/express');
+const { authMiddleware } = require('../../../middlewares/auth');
+const { mockReadUserById } = require('../../../repositories/UserRepository');
 
 jest.mock('../../middlewares/auth');
 jest.mock('../../repositories/UserRepository');

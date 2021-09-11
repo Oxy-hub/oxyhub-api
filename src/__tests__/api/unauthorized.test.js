@@ -3,7 +3,7 @@ const express = require('express');
 const expressLoader = require('../../loaders/express');
 
 let app = express();
-beforeAll(() => {
+beforeEach(() => {
   app = expressLoader(app);
 });
 
