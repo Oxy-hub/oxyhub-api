@@ -1,9 +1,12 @@
 const { promisify } = require('util');
+// const logger = require('../loaders/logger');
 
 class UserRepository {
   constructor({ mongooseUserModel, redisClient }) {
     this.MongooseUserModel = mongooseUserModel;
     this.redisClient = redisClient;
+    // logger.debug(redisClient);
+    // console.log('redis client from user repo : ', redisClient);
     this.del = promisify(redisClient.del).bind(redisClient);
     this.set = promisify(redisClient.set).bind(redisClient);
     this.get = promisify(redisClient.get).bind(redisClient);
@@ -18,6 +21,11 @@ class UserRepository {
 
   async readUserByEmail(email) {
     const user = await this.MongooseUserModel.findOne({ email }).exec();
+    return user;
+  }
+
+  async readUserById(userId) {
+    const user = await this.MongooseUserModel.findOne({ _id: userId }).exec();
     return user;
   }
 
@@ -45,4 +53,4 @@ class UserRepository {
   }
 }
 
-module.exports = UserRepository;
+exports.UserRepository = UserRepository;
