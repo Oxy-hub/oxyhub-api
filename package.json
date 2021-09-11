@@ -5,13 +5,19 @@
   "repository": "https://github.com/Oxy-hub/oxyhub-api",
   "main": "./src/server.js",
   "scripts": {
+    "serve": "cross-env NODE_ENV=production node ./src/server.js",
     "start": "nodemon",
-    "check-lint": "npx eslint .",
-    "check-prettier": "npx prettier --check .",
-    "jest": "jest",
-    "jest:watch": "jest --watch",
-    "test": "npm run check-lint && npm run check-prettier",
+    "lint": "npx eslint .",
+    "pre-commit": "lint-staged",
+    "prettier": "npx prettier --check .",
+    "test": "cross-env NODE_ENV=test jest --watch",
     "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npx eslint",
+      "npx prettier --check"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +26,7 @@
     "axios": "^0.21.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
