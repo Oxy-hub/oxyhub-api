@@ -1,10 +1,21 @@
 require('dotenv').config();
 
+const setMongoUrl = () => {
+  switch (process.env.NODE_ENV) {
+    case 'production':
+      return process.env.MONGODB_URL_PROD;
+    case 'test':
+      return process.env.MONGODB_URL_TEST;
+    default:
+      return process.env.MONGODB_URL_DEV;
+  }
+};
+
 module.exports = {
   mode: process.env.NODE_ENV || 'dev',
   port: process.env.PORT || 8000,
   mongo: {
-    url: process.env.MONGODB_URL
+    url: setMongoUrl()
   },
   redis: {
     redisHostName: process.env.REDIS_HOSTNAME,

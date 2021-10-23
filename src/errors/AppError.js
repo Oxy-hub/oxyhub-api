@@ -7,6 +7,10 @@ class AppError {
   static serverError() {
     return new AppError(500, 'Something went wrong!');
   }
+
+  static unauthorized() {
+    return new AppError(401, 'Unauthorized!');
+  }
 }
 
 module.exports = AppError;

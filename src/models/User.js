@@ -5,22 +5,22 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  first_name: {
+  firstName: {
     type: String,
     uppercase: true,
     trim: true
   },
-  middle_name: {
+  middleName: {
     type: String,
     uppercase: true,
     trim: true
   },
-  last_name: {
+  lastName: {
     type: String,
     uppercase: true,
     trim: true
   },
-  is_initial: {
+  isInitial: {
     type: Boolean,
     default: true
   }

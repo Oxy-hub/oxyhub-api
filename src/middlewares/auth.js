@@ -5,7 +5,7 @@
 // } = require('../utils/helpers/redisHelpers');
 const { Container } = require('../loaders/awilix');
 
-const authMiddleware = async (req, res, next) => {
+exports.authMiddleware = async (req, res, next) => {
   try {
     console.log('executing auth middleware...');
     // Extract access token from header in request object
@@ -29,4 +29,4 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+// module.exports = authMiddleware;

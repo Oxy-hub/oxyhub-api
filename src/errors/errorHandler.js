@@ -2,6 +2,7 @@ const AppError = require('./AppError');
 
 // eslint-disable-next-line
 const handleError = (err, _, res, next) => {
+  console.log('Hitting handleError');
   console.log(err);
   if (!(err instanceof AppError)) {
     // eslint-disable-next-line

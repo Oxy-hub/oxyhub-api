@@ -7,6 +7,7 @@ const loaders = require('./loaders');
   await loaders(app);
   app.listen(config.port, () => {
     console.log(`LISTENING ON PORT ${config.port}`);
+    console.log(`IN ${config.mode} MODE`);
   });
 })();
 

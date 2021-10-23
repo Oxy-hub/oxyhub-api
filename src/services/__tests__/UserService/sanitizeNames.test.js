@@ -15,6 +15,14 @@ describe('Unit test for sanitizeNames()', () => {
     expect(lastName).toBe('Doe');
   });
 
+  test('should return empty string for middle name if it does not exist', () => {
+    const { firstName, middleName, lastName } =
+      UserServiceInstance.sanitizeName('John Doe');
+    expect(firstName).toBe('John');
+    expect(middleName).toBe('');
+    expect(lastName).toBe('Doe');
+  });
+
   test('should split a name having more than 1 middle name into proper first,middle and last name', () => {
     const { firstName, middleName, lastName } =
       UserServiceInstance.sanitizeName('John Jonathan Pastor Doe');
