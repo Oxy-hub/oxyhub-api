@@ -39,27 +39,22 @@ class UserService {
       const user = this.sanitizeName(name);
       return { ...user, email };
     } catch (e) {
-      // console.log('Caught error');
-      throw AppError.serverError();
+      throw new AppError(400, 'Github failed to authorize user!');
     }
   }
 
   async login(userProfile) {
     try {
       // Check if user already exists in database
-      let user = await this.userRepository.readUserByEmail(userProfile.email);
-      // Store the user in the database if the user does not exist in the db
+      const user = await this.userRepository.readUserByEmail(userProfile.email);
+
+      // If the user does not exist, user is coming for first time
       if (!user) {
-        user = await this.userRepository.createUser(userProfile);
+        return { isInitial: true, userId: null };
       }
-      console.log('user from userservice : ', user);
-      // Store userid:inital key in redis(if true otherwise delete) to prevent further database lookups during refresh
-      if (user.is_initial) {
-        await this.userRepository.createIsInitialInRedis(user.id);
-      } else {
-        await this.userRepository.deleteIsInitialFromRedis(user.id);
-      }
-      return { isInitial: user.is_initial, userId: user.id };
+
+      // If user exists, return the userId
+      return { isInitial: false, userId: user.id };
     } catch (e) {
       throw AppError.serverError();
     }

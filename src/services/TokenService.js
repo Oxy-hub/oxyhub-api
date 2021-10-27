@@ -34,13 +34,20 @@ class TokenService {
     }
   }
 
-  generateLoginTokens(id) {
+  generateLoginTokens(id, isInitial) {
     try {
       const jti = uuidv4();
-      const accesssToken = this.generateAccessToken({ id });
-      const refreshToken = this.generateRefreshToken({ jti, id });
-      this.tokenRepository.createRefreshTokenInRedis(id, jti);
-      return { accesssToken, refreshToken };
+      const accessToken = this.generateAccessToken({ id, isInitial });
+
+      // If user is initial, return both access and refresh tokens
+      if (!isInitial) {
+        const refreshToken = this.generateRefreshToken({ jti, id });
+        this.tokenRepository.createRefreshTokenInRedis(id, jti);
+        return { accessToken, refreshToken };
+      }
+
+      // If user is not initial, only return access token
+      return { accessToken, refreshToken: null };
     } catch (e) {
       throw AppError.serverError();
     }
