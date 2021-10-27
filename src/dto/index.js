@@ -1,10 +1,10 @@
 const authResponseDto = require('./authResponse');
 const authRequestDto = require('./authRequest');
 
-const createSuccessDto = (message, cb, metadata) => ({
+const createSuccessDto = (message, data, metadata) => ({
   success: true,
   message,
-  data: cb(),
+  data,
   metadata
 });
 
