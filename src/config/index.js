@@ -1,31 +1,17 @@
 require('dotenv').config();
-
-const setMongoUrl = () => {
-  switch (process.env.NODE_ENV) {
-    case 'production':
-      return process.env.MONGODB_URL_PROD;
-    case 'test':
-      return process.env.MONGODB_URL_TEST;
-    default:
-      return process.env.MONGODB_URL_DEV;
-  }
-};
+const setMongoUrl = require('./setMongoUrl');
+const setGithubConfig = require('./setGithubConfig');
 
 module.exports = {
   mode: process.env.NODE_ENV || 'dev',
   port: process.env.PORT || 8000,
-  mongo: {
-    url: setMongoUrl()
-  },
+  mongo: setMongoUrl(),
   redis: {
     redisHostName: process.env.REDIS_HOSTNAME,
     redisPort: process.env.REDIS_PORT,
     redisPassword: process.env.REDIS_PASSWORD
   },
-  github: {
-    clientId: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET
-  },
+  github: setGithubConfig(),
   tokens: {
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
