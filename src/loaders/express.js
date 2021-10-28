@@ -1,13 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const swaggerUi = require('swagger-ui-express');
 const morgan = require('morgan');
 const routes = require('../routes');
 const middlewares = require('../middlewares');
 const errors = require('../errors');
 const config = require('../config');
 
-module.exports = app => {
+module.exports = (app, { swaggerSpec }) => {
   /** 3RD PARTY MIDDLEWARES */
   app.use(
     morgan(':method :url :status :res[content-length] - :response-time ms')
@@ -23,6 +24,8 @@ module.exports = app => {
   app.use(cookieParser());
 
   app.use(express.json());
+
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   /** CUSTOM MIDDLEWARES */
   middlewares.init(app);
