@@ -31,7 +31,8 @@ module.exports = (app, { swaggerSpec }) => {
   middlewares.init(app);
 
   /** INITIALIZE ROUTES */
-  routes.init(app);
+  const router = express.Router();
+  app.use(config.apiPrefix, routes.init(router));
   app.use((_, res) => {
     res
       .status(404)

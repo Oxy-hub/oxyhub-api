@@ -20,5 +20,6 @@ module.exports = {
       refreshToken: process.env.REFRESH_TOKEN_EXPIRY_3D_MS
     }
   },
-  origins: [process.env.LOCAL_ORIGIN, process.env.PROD_ORIGIN]
+  origins: [process.env.LOCAL_ORIGIN, process.env.PROD_ORIGIN],
+  apiPrefix: '/api/v0'
 };

@@ -1,22 +1,23 @@
+const path = require('path');
 const swaggerJsdoc = require('swagger-jsdoc');
 
 const swaggerInit = () => {
   const options = {
     definition: {
-      openapi: '3.0.0',
+      openapi: '3.0.3',
       info: {
         title: 'Oxyhub Api',
         description: 'Api documentation for Oxyhub project.',
-        version: '0.0.0'
+        version: '0.1.0'
       },
       servers: [
         {
-          url: 'http://localhost:8000',
+          url: 'http://localhost:8000/api/v0',
           description: 'Local development server'
         }
       ]
     },
-    apis: ['./src/routes*.js']
+    apis: [path.join(__dirname, '../routes/*.js')]
   };
 
   return swaggerJsdoc(options);
