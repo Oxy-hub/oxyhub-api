@@ -1,6 +1,6 @@
 {
   "name": "oxyhub-api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Api for oxyhub",
   "repository": "https://github.com/Oxy-hub/oxyhub-api",
   "main": "./src/server.js",
