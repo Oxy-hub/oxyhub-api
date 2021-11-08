@@ -1,7 +1,8 @@
 class AppError {
-  constructor(httpStatus, message) {
+  constructor(httpStatus, message, errors = []) {
     this.message = message;
     this.httpStatus = httpStatus;
+    this.errors = errors;
   }
 
   static serverError() {
@@ -9,7 +10,10 @@ class AppError {
   }
 
   static unauthorized() {
-    return new AppError(401, 'Unauthorized!');
+    return new AppError(
+      401,
+      'Unauthorized! Bearer token is missing or the token is invalid.'
+    );
   }
 }
 

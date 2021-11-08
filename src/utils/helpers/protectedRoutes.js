@@ -1,1 +1,1 @@
-module.exports = ['/user', '/logout'];
+module.exports = ['/api/v0/users', '/logout'];

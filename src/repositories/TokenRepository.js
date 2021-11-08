@@ -3,6 +3,7 @@ const config = require('../config');
 
 class TokenRepository {
   constructor({ redisClient }) {
+    console.log('Reached token repo');
     this.redisClient = redisClient;
     this.set = promisify(redisClient.set).bind(redisClient);
     this.sadd = promisify(redisClient.sadd).bind(redisClient);
@@ -29,4 +30,4 @@ class TokenRepository {
   }
 }
 
-module.exports = TokenRepository;
+exports.TokenRepository = TokenRepository;

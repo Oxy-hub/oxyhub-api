@@ -13,8 +13,10 @@ module.exports = {
   },
   github: setGithubConfig(),
   tokens: {
-    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
-    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
+    secrets: {
+      accessToken: process.env.ACCESS_TOKEN_SECRET,
+      refreshToken: process.env.REFRESH_TOKEN_SECRET
+    },
     expiry: {
       accessToken: process.env.ACCESS_TOKEN_EXPIRY_5M_MS,
       refreshToken: process.env.REFRESH_TOKEN_EXPIRY_3D_MS

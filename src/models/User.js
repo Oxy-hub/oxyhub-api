@@ -19,10 +19,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     uppercase: true,
     trim: true
-  },
-  isInitial: {
-    type: Boolean,
-    default: true
   }
 });
 

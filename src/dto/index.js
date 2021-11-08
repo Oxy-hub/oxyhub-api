@@ -1,5 +1,7 @@
 const authResponseDto = require('./authResponse');
 const authRequestDto = require('./authRequest');
+const registerUserRequestDto = require('./registerUserRequest');
+const registerUserResponseDto = require('./registerUserResponse');
 
 const createSuccessDto = (message, data, metadata) => ({
   success: true,
@@ -18,5 +20,7 @@ module.exports = {
   createSuccessDto,
   createErrorDto,
   authResponseDto,
-  authRequestDto
+  authRequestDto,
+  registerUserRequestDto,
+  registerUserResponseDto
 };

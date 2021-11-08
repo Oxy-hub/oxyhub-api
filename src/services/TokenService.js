@@ -9,13 +9,6 @@ class TokenService {
     this.userRepository = userRepository;
   }
 
-  verify(token, secret) {
-    return jwt.verify(token, secret, {
-      audience: 'oxyhub-api',
-      algorithm: 'HS256'
-    });
-  }
-
   generate(payload, secret, expiresIn) {
     return jwt.sign(payload, secret, {
       expiresIn,
@@ -28,7 +21,7 @@ class TokenService {
     try {
       return this.generate(
         payload,
-        config.tokens.accessTokenSecret,
+        config.tokens.secrets.accessToken,
         config.tokens.expiry.accessToken
       );
     } catch (e) {
@@ -40,7 +33,7 @@ class TokenService {
     try {
       return this.generate(
         payload,
-        config.tokens.refreshTokenSecret,
+        config.tokens.secrets.refreshToken,
         config.tokens.expiry.refreshToken
       );
     } catch (e) {
@@ -65,8 +58,40 @@ class TokenService {
       data,
       jti
     });
-    this.tokenRepository.createRefreshTokenInRedis(id, jti);
+    // this.tokenRepository.createRefreshTokenInRedis(id, jti);
     return refreshToken;
+  }
+
+  verify(token, secret) {
+    return jwt.verify(token, secret, {
+      audience: 'oxyhub-api',
+      algorithm: 'HS256'
+    });
+  }
+
+  async verifyAccessToken(token) {
+    try {
+      // const secret = config.tokens.accessTokenSecret;
+      // const { id } = this.verify(token, secret);
+
+      // // If token is not blacklisted get isInitial status of the token
+      // this.isBlacklisted(id, token);
+      // const isInitial = await this.userRepository.readIsInitial(id);
+      // return { id, isInitial };
+
+      const secret = config.tokens.secrets.accessToken;
+      const data = this.verify(token, secret);
+
+      // if isInital is true, then just return true, no need for other verification.
+      if (data.isInitial) {
+        return data;
+      }
+
+      // Otherwise perform the redis checks
+      return data;
+    } catch (e) {
+      throw new AppError(401, 'Failed to verify access token!');
+    }
   }
 
   async isBlacklisted(id, token) {
@@ -127,31 +152,6 @@ class TokenService {
   //     }
   //   }
   // }
-
-  async verifyAccessToken(token) {
-    try {
-      // const secret = config.tokens.accessTokenSecret;
-      // const { id } = this.verify(token, secret);
-
-      // // If token is not blacklisted get isInitial status of the token
-      // this.isBlacklisted(id, token);
-      // const isInitial = await this.userRepository.readIsInitial(id);
-      // return { id, isInitial };
-
-      const secret = config.tokens.accessTokenSecret;
-      const { id, isInitial } = this.verify(token, secret);
-
-      // if isInital is true, then just return true, no need for other verification.
-      if (isInitial) {
-        return { id, isInitial };
-      }
-
-      // Otherwise perform the redis checks
-      return { id, isInitial };
-    } catch (e) {
-      throw new AppError(401, 'Unauthorized!');
-    }
-  }
 }
 
-module.exports = TokenService;
+exports.TokenService = TokenService;

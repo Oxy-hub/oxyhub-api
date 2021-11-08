@@ -1,6 +1,6 @@
 const { githubLogin } = require('./githubLogin');
 const { googleLogin } = require('./googleLogin');
-const wrapAsync = require('../../utils/helpers/wrapAsync');
+const wrapAsync = require('../../utils/wrapAsync');
 
 module.exports = {
   googleLogin: wrapAsync(googleLogin),
