@@ -1,5 +1,5 @@
 const awilix = require('awilix');
-const UserService = require('../services/UserService');
+const { UserService } = require('../services/UserService');
 const { TokenService } = require('../services/TokenService');
 const { UserRepository } = require('../repositories/UserRepository');
 const { TokenRepository } = require('../repositories/TokenRepository');
