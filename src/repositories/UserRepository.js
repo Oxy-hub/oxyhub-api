@@ -40,7 +40,7 @@ class UserRepository {
   }
 
   async readUserById(userId) {
-    const user = await this.MongooseUserModel.findOne({ _id: userId }).exec();
+    const user = await this.MongooseUserModel.findById(userId).exec();
     return user;
   }
 

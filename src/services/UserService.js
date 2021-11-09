@@ -81,9 +81,11 @@ class UserService {
   async fetchUser(userId) {
     try {
       // Fetch user from Database by Id
-      const { id, email, firstName, middleName, lastName } =
-        await this.userRepository.readUserById(userId);
-      return { id, email, firstName, middleName, lastName };
+      if (!userId) {
+        throw new Error();
+      }
+
+      return await this.userRepository.readUserById(userId);
     } catch (e) {
       throw AppError.serverError();
     }

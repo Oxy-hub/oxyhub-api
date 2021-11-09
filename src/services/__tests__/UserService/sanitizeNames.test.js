@@ -1,4 +1,4 @@
-const UserService = require('../../UserService');
+const { UserService } = require('../../UserService');
 
 let UserServiceInstance = null;
 const mockParams = { userRepository: {}, githubRepository: {} };

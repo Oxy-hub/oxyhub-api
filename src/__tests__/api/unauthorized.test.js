@@ -13,10 +13,10 @@ beforeEach(() => {
 });
 
 describe('/users (Unauthorized)', () => {
-  // test('GET to /user should return 401', async () => {
-  //   const response = await request(app).get('/user');
-  //   expect(response.statusCode).toBe(401);
-  // });
+  test('GET to /users/me should return 401', async () => {
+    const response = await request(app).get('/api/v0/users/me');
+    expect(response.statusCode).toBe(401);
+  });
   test('POST to /users should return 401', async () => {
     const response = await request(app).post('/api/v0/users');
     expect(response.statusCode).toBe(401);

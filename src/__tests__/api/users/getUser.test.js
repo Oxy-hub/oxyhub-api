@@ -1,54 +1,63 @@
 const request = require('supertest');
 const express = require('express');
+const config = require('../../../config');
 const { awilixInit } = require('../../../loaders/awilix');
 const expressLoader = require('../../../loaders/express');
-const { authMiddleware } = require('../../../middlewares/auth');
 const { mockReadUserById } = require('../../../repositories/UserRepository');
 
-jest.mock('../../middlewares/auth');
-jest.mock('../../repositories/UserRepository');
-let app = express();
+jest.mock('../../../middlewares/auth');
+jest.mock('../../../repositories/UserRepository');
 
-describe('GET /user', () => {
-  beforeEach(() => {
-    awilixInit({});
-    app = expressLoader(app);
+let app = express();
+let response = null;
+let responseData = null;
+
+beforeAll(() => {
+  awilixInit({});
+});
+
+beforeEach(() => {
+  app = expressLoader(app, { swaggerSpec: {} });
+});
+
+describe('GET /users/me (happy flow)', () => {
+  beforeEach(async () => {
+    response = await request(app).get('/api/v0/users/me');
+    responseData = response.body.data;
   });
 
   test('should return 200 if authenticated', async () => {
-    const response = await request(app).get('/user');
     expect(response.statusCode).toBe(200);
-  });
-
-  test('should return 401 when userId is not present', async () => {
-    authMiddleware.mockImplementationOnce((_, __, next) => {
-      next();
-    });
-    const response = await request(app).get('/user');
-    expect(response.statusCode).toBe(401);
+    expect(response.body.success).toBe(true);
+    expect(responseData).toBeTruthy();
   });
 
   test('should have application/json content-type header', async () => {
-    const response = await request(app).get('/user');
     expect(response.header['content-type']).toEqual(
       expect.stringContaining('json')
     );
   });
 
   test('should return user details', async () => {
-    const response = await request(app).get('/user');
-    expect(response.body.id).toBe('123abc');
-    expect(response.body.firstName).toBe('John');
-    expect(response.body.middleName).toBe('');
-    expect(response.body.lastName).toBe('Doe');
-    expect(response.body.email).toBe('johndoe@gmail.com');
+    expect(responseData).toStrictEqual({
+      id: '123abc',
+      first_name: 'John',
+      middle_name: 'Pastor',
+      last_name: 'Doe',
+      email: 'johndoe@gmail.com',
+      orders_url: `${config.apiBaseUrl}/orders/123abc`
+    });
   });
+});
 
-  test('should return 500 if database throws an error', async () => {
-    mockReadUserById.mockImplementationOnce(() => Promise.reject());
-
-    const response = await request(app).get('/user');
-    expect(response.statusCode).toBe(500);
-    expect(response.body.message).toBe('Something went wrong!');
+describe('POST /users (NOT so happy flow!)', () => {
+  describe('Server Errors', () => {
+    test('should return 500 if database throws an error', async () => {
+      mockReadUserById.mockImplementationOnce(() => Promise.reject());
+      response = await request(app).get('/api/v0/users/me');
+      expect(response.statusCode).toBe(500);
+      expect(response.body.error.message).toBe('Something went wrong!');
+      expect(response.body.error.httpStatus).toBe(500);
+    });
   });
 });

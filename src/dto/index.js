@@ -1,5 +1,6 @@
 const authResponseDto = require('./authResponse');
 const authRequestDto = require('./authRequest');
+const getUserResponseDto = require('./getUserResponse');
 const registerUserRequestDto = require('./registerUserRequest');
 const registerUserResponseDto = require('./registerUserResponse');
 
@@ -21,6 +22,7 @@ module.exports = {
   createErrorDto,
   authResponseDto,
   authRequestDto,
+  getUserResponseDto,
   registerUserRequestDto,
   registerUserResponseDto
 };

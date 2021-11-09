@@ -1,5 +1,6 @@
 const request = require('supertest');
 const express = require('express');
+const config = require('../../../config');
 const expressLoader = require('../../../loaders/express');
 const { awilixInit } = require('../../../loaders/awilix');
 const { authMiddleware } = require('../../../middlewares/auth');
@@ -72,7 +73,7 @@ describe('POST /users (happy flow)', () => {
     expect(responseData.middle_name).toBe('');
     expect(responseData.last_name).toBe('Doe');
     expect(responseData.email).toBe('johndoe@oxyhub.com');
-    expect(responseData.profile_url).toBeTruthy();
+    expect(responseData.profile_url).toBe(`${config.apiBaseUrl}/users/me`);
   });
 });
 

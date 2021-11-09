@@ -1,13 +1,15 @@
-const AppError = require('../../errors/AppError');
 const { Container } = require('../../loaders/awilix');
+const { createSuccessDto, getUserResponseDto } = require('../../dto');
 
 exports.getUser = async (req, res) => {
-  if (req.userId) {
-    const UserServiceInstance = Container.resolve('userService');
+  // Resolve user service from container
+  const UserService = Container.resolve('userService');
 
-    const user = await UserServiceInstance.fetchUser(req.userId);
-    res.send(user);
-  } else {
-    throw AppError.unauthorized();
-  }
+  // Fetch the User from user service
+  const user = await UserService.fetchUser(req.userId);
+
+  // Return the user in the correct format
+  return res.send(
+    createSuccessDto('User successfully found!', getUserResponseDto(user))
+  );
 };

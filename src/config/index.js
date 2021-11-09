@@ -23,5 +23,6 @@ module.exports = {
     }
   },
   origins: [process.env.LOCAL_ORIGIN, process.env.PROD_ORIGIN],
-  apiPrefix: '/api/v0'
+  apiPrefix: process.env.API_PREFIX,
+  apiBaseUrl: `${process.env.API_BASE_URL}/${process.env.API_PREFIX}`
 };

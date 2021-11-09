@@ -8,7 +8,7 @@ module.exports = (router, controllers = userControllers) => {
     validateDto(registerUserRequestDto),
     controllers.registerUser
   );
-  // router.get('/me', controllers.getUser);
+  router.get('/me', controllers.getUser);
 
   return router;
 };

@@ -2,7 +2,7 @@ const mockReadUserById = jest.fn().mockImplementation(() =>
   Promise.resolve({
     id: '123abc',
     firstName: 'John',
-    middleName: '',
+    middleName: 'Pastor',
     lastName: 'Doe',
     email: 'johndoe@gmail.com'
   })
