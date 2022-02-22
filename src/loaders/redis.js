@@ -1,21 +1,24 @@
-const redis = require('redis');
+const { createClient } = require('redis');
+const logger = require('./logger');
 const config = require('../config');
 
-module.exports = () =>
-  new Promise(resolve => {
-    const client = redis.createClient({
+module.exports = async () => {
+  const client = createClient({
+    socket: {
       host: config.redis.redisHostName,
-      port: config.redis.redisPort,
-      password: config.redis.redisPassword
-    });
-
-    client.on('ready', () => {
-      console.log('REDIS CLIENT IS READY!');
-      resolve(client);
-    });
-
-    client.on('error', () => {
-      console.log('REDIS CONNECTION FAILED! EXITING!');
-      process.exit();
-    });
+      port: config.redis.redisPort
+    },
+    password: config.redis.redisPassword
   });
+
+  try {
+    await client.connect();
+    logger.info('REDIS CLIENT IS READY!');
+  } catch (e) {
+    logger.error('REDIS CONNECTION FAILED! EXITING!');
+    logger.error(e);
+    process.exit();
+  }
+
+  return client;
+};

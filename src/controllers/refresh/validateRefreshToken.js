@@ -28,3 +28,45 @@
 //   console.log('Successfully validated the Refresh Token');
 //   next();
 // });
+
+const { Container } = require('../../loaders/awilix');
+const { createSuccessDto, refreshResponseDto } = require('../../dto');
+const config = require('../../config');
+
+exports.validateRefreshToken = async (req, res) => {
+  // Read RTK (refresh_token from the cookies)
+  console.log('1');
+  const { RTK: userRefreshToken } = req.cookies;
+  console.log('Refresh Token', userRefreshToken);
+
+  console.log('A');
+  // Resolve token service from container
+  const TokenService = Container.resolve('tokenService');
+
+  console.log('B');
+  // Fetch the User from user service
+  const userId = await TokenService.verifyRefreshToken(userRefreshToken);
+  // const userId = '223abc';
+
+  console.log('C');
+  const refreshToken = await TokenService.generateRefreshToken(userId);
+  console.log(refreshToken);
+
+  console.log('D');
+  const accessToken = TokenService.generateAccessToken(userId);
+
+  return res
+    .cookie('RTK', refreshToken, {
+      httpOnly: true,
+      maxAge: config.tokens.expiry.refreshToken,
+      secure: true
+    })
+    .send(
+      createSuccessDto(
+        'User logged in successfully!',
+        refreshResponseDto({
+          accessToken
+        })
+      )
+    );
+};

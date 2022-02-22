@@ -4,9 +4,8 @@ const config = require('../config');
 const AppError = require('../errors/AppError');
 
 class TokenService {
-  constructor({ tokenRepository, userRepository }) {
+  constructor({ tokenRepository }) {
     this.tokenRepository = tokenRepository;
-    this.userRepository = userRepository;
   }
 
   generate(payload, secret, expiresIn) {
@@ -51,14 +50,14 @@ class TokenService {
     // Some other stuff about blacklisting this token
   }
 
-  generateRefreshToken(id, data = {}) {
+  async generateRefreshToken(id, data = {}) {
     const jti = uuidv4();
     const refreshToken = this.mintRefreshToken({
       id,
       data,
       jti
     });
-    // this.tokenRepository.createRefreshTokenInRedis(id, jti);
+    await this.tokenRepository.createRefreshTokenInRedis(id, jti);
     return refreshToken;
   }
 
@@ -91,6 +90,27 @@ class TokenService {
       return data;
     } catch (e) {
       throw new AppError(401, 'Failed to verify access token!');
+    }
+  }
+
+  async verifyRefreshToken(refreshToken) {
+    try {
+      console.log('AAAAAAAA', refreshToken);
+      const secret = config.tokens.secrets.refreshToken;
+
+      // Verify the validity of refresh token
+      const { id, jti } = this.verify(refreshToken, secret);
+
+      // Check whether the refresh token is whitelisted in redis
+      await this.tokenRepository.validateRefreshTokenFromRedis(id, jti);
+
+      // Delete the existing refresh token in redis to facilitate rotation
+      await this.tokenRepository.deleteRefreshTokenFromRedis(id, jti);
+
+      return id;
+    } catch (e) {
+      console.log(e);
+      throw new AppError(401, 'Unauthorized! Failed to verify refresh token.');
     }
   }
 
