@@ -12,7 +12,7 @@ exports.githubLogin = async (req, res) => {
   const userProfile = await UserService.useGithubOAuth(code);
   const { isInitial, userId } = await UserService.login(userProfile);
 
-  // If user is inital, do not set refresh token in the cookie, but send the user profile
+  // If user is initial, do not set refresh token in the cookie, but send the user profile
   if (isInitial) {
     const accessToken = TokenService.generateAccessToken(userId, {
       isInitial: true,
