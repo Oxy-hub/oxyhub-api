@@ -2,6 +2,7 @@ const awilix = require('awilix');
 // Service imports
 const { UserService } = require('../services/UserService');
 const { TokenService } = require('../services/TokenService');
+const { StateService } = require('../services/StateService');
 const { DistrictService } = require('../services/DistrictService');
 
 // Repository imports
@@ -23,6 +24,7 @@ const awilixInit = ({ redisClient: redis }) => {
     // Services go here
     userService: awilix.asClass(UserService),
     tokenService: awilix.asClass(TokenService),
+    stateService: awilix.asClass(StateService),
     districtService: awilix.asClass(DistrictService),
 
     // Repositories go here
