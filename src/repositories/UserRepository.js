@@ -1,4 +1,3 @@
-const { promisify } = require('util');
 // const logger = require('../loaders/logger');
 
 class UserRepository {
@@ -7,9 +6,6 @@ class UserRepository {
     this.redisClient = redisClient;
     // logger.debug(redisClient);
     // console.log('redis client from user repo : ', redisClient);
-    this.del = promisify(redisClient.del).bind(redisClient);
-    this.set = promisify(redisClient.set).bind(redisClient);
-    this.get = promisify(redisClient.get).bind(redisClient);
   }
 
   toPersistance(user) {
