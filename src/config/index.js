@@ -13,13 +13,16 @@ module.exports = {
   },
   github: setGithubConfig(),
   tokens: {
-    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
-    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
+    secrets: {
+      accessToken: process.env.ACCESS_TOKEN_SECRET,
+      refreshToken: process.env.REFRESH_TOKEN_SECRET
+    },
     expiry: {
       accessToken: process.env.ACCESS_TOKEN_EXPIRY_5M_MS,
       refreshToken: process.env.REFRESH_TOKEN_EXPIRY_3D_MS
     }
   },
   origins: [process.env.LOCAL_ORIGIN, process.env.PROD_ORIGIN],
-  apiPrefix: '/api/v0'
+  apiPrefix: process.env.API_PREFIX,
+  apiBaseUrl: `${process.env.API_BASE_URL}/${process.env.API_PREFIX}`
 };

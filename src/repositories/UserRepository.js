@@ -12,6 +12,21 @@ class UserRepository {
     this.get = promisify(redisClient.get).bind(redisClient);
   }
 
+  toPersistance(user) {
+    return {
+      firstName: user.first_name,
+      middleName: user.middle_name,
+      lastName: user.last_name,
+      email: user.email
+    };
+  }
+
+  async createUser(user) {
+    const newUser = new this.MongooseUserModel(this.toPersistance(user));
+    await newUser.save();
+    return newUser;
+  }
+
   async updateUser(id, userObject) {
     await this.MongooseUserModel.findByIdAndUpdate(id, userObject, {
       new: true,
@@ -25,14 +40,8 @@ class UserRepository {
   }
 
   async readUserById(userId) {
-    const user = await this.MongooseUserModel.findOne({ _id: userId }).exec();
+    const user = await this.MongooseUserModel.findById(userId).exec();
     return user;
-  }
-
-  async createUser(user) {
-    const newUser = new this.MongooseUserModel(user);
-    await newUser.save();
-    return newUser;
   }
 
   constructInitialKey(id) {

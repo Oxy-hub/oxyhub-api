@@ -1,5 +1,5 @@
 const { authMiddleware } = require('./auth');
-const protectedRoutes = require('../utils/helpers/protectedRoutes');
+const protectedRoutes = require('../utils/protectedRoutes');
 const { validateDto } = require('./validateDto');
 
 const init = app => {

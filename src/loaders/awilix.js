@@ -1,8 +1,8 @@
 const awilix = require('awilix');
-const UserService = require('../services/UserService');
-const TokenService = require('../services/TokenService');
+const { UserService } = require('../services/UserService');
+const { TokenService } = require('../services/TokenService');
 const { UserRepository } = require('../repositories/UserRepository');
-const TokenRepository = require('../repositories/TokenRepository');
+const { TokenRepository } = require('../repositories/TokenRepository');
 const GithubRepository = require('../repositories/GithubRepository');
 const MongooseUserModel = require('../models/User');
 

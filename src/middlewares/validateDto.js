@@ -4,12 +4,12 @@ const AppError = require('../errors/AppError');
 exports.validateDto = schema => async (req, _, next) => {
   try {
     req.body = await schema.validate(req.body, {
-      abortEarly: true,
+      abortEarly: false,
       stripUnknown: true
     });
     next();
   } catch (err) {
-    console.log(err.errors);
-    next(new AppError(400, err.errors[0]));
+    // console.log(err.errors);
+    next(new AppError(400, 'Input validation failed!', err.errors));
   }
 };

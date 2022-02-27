@@ -2,17 +2,29 @@ const mockReadUserById = jest.fn().mockImplementation(() =>
   Promise.resolve({
     id: '123abc',
     firstName: 'John',
-    middleName: '',
+    middleName: 'Pastor',
     lastName: 'Doe',
     email: 'johndoe@gmail.com'
   })
 );
 
+const mockCreateUser = jest.fn().mockImplementation(() =>
+  Promise.resolve({
+    id: '123abc',
+    firstName: 'John',
+    middleName: '',
+    lastName: 'Doe',
+    email: 'johndoe@oxyhub.com'
+  })
+);
+
 const mockUserRepository = {
   UserRepository: jest.fn().mockImplementation(() => ({
-    readUserById: mockReadUserById
+    readUserById: mockReadUserById,
+    createUser: mockCreateUser
   })),
-  mockReadUserById
+  mockReadUserById,
+  mockCreateUser
 };
 
 module.exports = mockUserRepository;

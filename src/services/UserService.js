@@ -60,16 +60,19 @@ class UserService {
     }
   }
 
-  async register(id, user) {
+  async register(isInitial, user) {
     try {
+      // Only allow registration if isInitial is present
+      if (!isInitial) {
+        throw new Error();
+      }
       // Sanitize user input to prevent XSS
-      const userDetails = this.sanitize(user);
+      // const sanitizedUser = this.sanitize(user);
 
-      // Update sanitized user details in Database
-      await this.userRepository.updateUser(id, userDetails);
+      // Create a new user in the database
+      const newUser = await this.userRepository.createUser(user);
 
-      // Delete isInitial from redis server to denote that this is not a first time user
-      await this.userRepository.deleteIsInitial(id);
+      return newUser;
     } catch (e) {
       throw AppError.serverError();
     }
@@ -78,13 +81,15 @@ class UserService {
   async fetchUser(userId) {
     try {
       // Fetch user from Database by Id
-      const { id, email, firstName, middleName, lastName } =
-        await this.userRepository.readUserById(userId);
-      return { id, email, firstName, middleName, lastName };
+      if (!userId) {
+        throw new Error();
+      }
+
+      return await this.userRepository.readUserById(userId);
     } catch (e) {
       throw AppError.serverError();
     }
   }
 }
 
-module.exports = UserService;
+exports.UserService = UserService;
