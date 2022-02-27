@@ -4,6 +4,7 @@ const getUserResponseDto = require('./getUserResponse');
 const registerUserRequestDto = require('./registerUserRequest');
 const registerUserResponseDto = require('./registerUserResponse');
 const refreshResponseDto = require('./refreshResponse');
+const getStatesResponseDto = require('./getStatesResponse');
 
 const createSuccessDto = (message, data, metadata) => ({
   success: true,
@@ -26,5 +27,6 @@ module.exports = {
   getUserResponseDto,
   registerUserRequestDto,
   registerUserResponseDto,
-  refreshResponseDto
+  refreshResponseDto,
+  getStatesResponseDto
 };

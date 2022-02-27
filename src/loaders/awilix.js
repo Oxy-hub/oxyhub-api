@@ -1,6 +1,7 @@
 const awilix = require('awilix');
 const { UserService } = require('../services/UserService');
 const { TokenService } = require('../services/TokenService');
+const { StateService } = require('../services/StateService');
 const { UserRepository } = require('../repositories/UserRepository');
 const { TokenRepository } = require('../repositories/TokenRepository');
 const GithubRepository = require('../repositories/GithubRepository');
@@ -15,6 +16,7 @@ const awilixInit = ({ redisClient: redis }) => {
   Container.register({
     userService: awilix.asClass(UserService),
     tokenService: awilix.asClass(TokenService),
+    stateService: awilix.asClass(StateService),
     userRepository: awilix.asClass(UserRepository),
     tokenRepository: awilix.asClass(TokenRepository),
     githubRepository: awilix.asClass(GithubRepository),
