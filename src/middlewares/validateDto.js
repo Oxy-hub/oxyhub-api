@@ -1,12 +1,32 @@
 const AppError = require('../errors/AppError');
+// const BODY = "BODY";
+const PARAMS = 'PARAMS';
+const QUERY = 'QUERY';
+
+const validate = async (schema, obj) => {
+  const options = {
+    abortEarly: false,
+    stripUnknown: true
+  };
+  return schema.validate(obj, options);
+};
 
 // eslint-disable-next-line
-exports.validateDto = schema => async (req, _, next) => {
+exports.validateDto = (schema, option) => async (req, _, next) => {
   try {
-    req.body = await schema.validate(req.body, {
-      abortEarly: false,
-      stripUnknown: true
-    });
+    switch (option) {
+      case PARAMS:
+        req.params = await validate(schema, req.params);
+        break;
+
+      case QUERY:
+        req.query = await validate(schema, req.query);
+        break;
+
+      default:
+        req.body = await validate(schema, req.body);
+    }
+
     next();
   } catch (err) {
     // console.log(err.errors);
