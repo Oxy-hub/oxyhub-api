@@ -1,6 +1,6 @@
-const { getStates } = require('./getStates');
+const { fetchStates } = require('./fetchStates');
 const wrapAsync = require('../../utils/wrapAsync');
 
 module.exports = {
-  getStates: wrapAsync(getStates)
+  fetchStates: wrapAsync(fetchStates)
 };

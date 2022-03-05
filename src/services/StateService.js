@@ -1,14 +1,18 @@
-// const AppError = require('../errors/AppError');
+const AppError = require('../errors/AppError');
 
 class StateService {
+  constructor({ stateRepository }) {
+    this.stateRepository = stateRepository;
+  }
+
   async fetchStates() {
-    const states = [
-      { id: 1, name: 'Andhra Pradesh' },
-      { id: 2, name: 'Arunachal Pradesh' },
-      { id: 3, name: 'Assam' },
-      { id: 4, name: 'Bihar' }
-    ];
-    return states;
+    try {
+      const states = await this.stateRepository.getAllStates();
+
+      return states;
+    } catch (e) {
+      throw AppError.serverError();
+    }
   }
 }
 

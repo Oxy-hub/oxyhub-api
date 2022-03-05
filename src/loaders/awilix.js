@@ -8,6 +8,7 @@ const { DistrictService } = require('../services/DistrictService');
 // Repository imports
 const { UserRepository } = require('../repositories/UserRepository');
 const { TokenRepository } = require('../repositories/TokenRepository');
+const { StateRepository } = require('../repositories/StateRepository');
 const { DistrictRepository } = require('../repositories/DistrictRepository');
 
 // Other imports
@@ -31,6 +32,7 @@ const awilixInit = ({ redisClient: redis }) => {
     userRepository: awilix.asClass(UserRepository),
     tokenRepository: awilix.asClass(TokenRepository),
     githubRepository: awilix.asClass(GithubRepository),
+    stateRepository: awilix.asClass(StateRepository),
     districtRepository: awilix.asClass(DistrictRepository),
 
     // Other stuff goes here
