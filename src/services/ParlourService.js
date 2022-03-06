@@ -19,15 +19,15 @@ class ParlourService {
     }
   }
 
-  // async fetchParlourById(id) {
-  //   try {
-  //     const parlour = await this.parlourRepository.getParlourById(id);
+  async fetchParlourById(id) {
+    try {
+      const parlour = await this.parlourRepository.getParlourById(id);
 
-  //     return parlour;
-  //   } catch (e) {
-  //     throw AppError.serverError();
-  //   }
-  // }
+      return parlour;
+    } catch (e) {
+      throw AppError.serverError();
+    }
+  }
 }
 
 exports.ParlourService = ParlourService;

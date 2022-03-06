@@ -32,6 +32,14 @@ class ParlourRepository {
       }
     ];
   }
+
+  async getParlourById(id) {
+    return {
+      id,
+      name: 'The Great Parlour',
+      address: '14,Abcd Road'
+    };
+  }
 }
 
 exports.ParlourRepository = ParlourRepository;

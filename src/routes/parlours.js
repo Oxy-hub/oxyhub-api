@@ -9,5 +9,10 @@ module.exports = (router, controllers = parlourControllers) => {
     controllers.fetchParlours
   );
 
+  router.get(
+    '/:id',
+    validateDto(parlours.getByIdRequest, 'PARAMS'),
+    controllers.fetchParlourById
+  );
   return router;
 };
