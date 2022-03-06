@@ -4,6 +4,7 @@ const auth = require('./auth');
 const refresh = require('./refresh');
 const districts = require('./districts');
 const states = require('./states');
+const parlours = require('./parlours');
 
 const init = router => {
   router.use('/auth', auth(express.Router()));
@@ -11,6 +12,7 @@ const init = router => {
   router.use('/refresh', refresh(express.Router()));
   router.use('/districts', districts(express.Router()));
   router.use('/states', states(express.Router()));
+  router.use('/parlours', parlours(express.Router()));
   return router;
 };
 

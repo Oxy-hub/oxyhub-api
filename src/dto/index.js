@@ -37,7 +37,7 @@ module.exports = {
   districts: {
     ...districtDtos
   },
-  parlour: {
+  parlours: {
     ...parlourDtos
   }
 };

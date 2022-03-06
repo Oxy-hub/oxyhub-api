@@ -1,13 +1,13 @@
 const AppError = require('../errors/AppError');
 
 class ParlourService {
-  constructor({ stateRepository }) {
-    this.stateRepository = stateRepository;
+  constructor({ parlourRepository }) {
+    this.parlourRepository = parlourRepository;
   }
 
-  async fetchParlour(state, district, type) {
+  async fetchParlours(state, district, type) {
     try {
-      const parlours = await this.stateRepository.getParlours(
+      const parlours = await this.parlourRepository.getParlours(
         state,
         district,
         type
