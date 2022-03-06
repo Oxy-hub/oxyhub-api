@@ -6,6 +6,7 @@ const registerUserResponseDto = require('./registerUserResponse');
 const refreshResponseDto = require('./refreshResponse');
 const stateDtos = require('./states');
 const districtDtos = require('./districts');
+const parlourDtos = require('./parlours');
 
 const createSuccessDto = (message, data, metadata) => ({
   success: true,
@@ -35,5 +36,8 @@ module.exports = {
   },
   districts: {
     ...districtDtos
+  },
+  parlour: {
+    ...parlourDtos
   }
 };

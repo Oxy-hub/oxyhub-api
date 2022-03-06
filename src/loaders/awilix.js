@@ -4,12 +4,14 @@ const { UserService } = require('../services/UserService');
 const { TokenService } = require('../services/TokenService');
 const { StateService } = require('../services/StateService');
 const { DistrictService } = require('../services/DistrictService');
+const { ParlourService } = require('../services/ParlourService');
 
 // Repository imports
 const { UserRepository } = require('../repositories/UserRepository');
 const { TokenRepository } = require('../repositories/TokenRepository');
 const { StateRepository } = require('../repositories/StateRepository');
 const { DistrictRepository } = require('../repositories/DistrictRepository');
+const { ParlourRepository } = require('../repositories/ParlourRepository');
 
 // Other imports
 const GithubRepository = require('../repositories/GithubRepository');
@@ -27,6 +29,7 @@ const awilixInit = ({ redisClient: redis }) => {
     tokenService: awilix.asClass(TokenService),
     stateService: awilix.asClass(StateService),
     districtService: awilix.asClass(DistrictService),
+    parlourService: awilix.asClass(ParlourService),
 
     // Repositories go here
     userRepository: awilix.asClass(UserRepository),
@@ -34,6 +37,7 @@ const awilixInit = ({ redisClient: redis }) => {
     githubRepository: awilix.asClass(GithubRepository),
     stateRepository: awilix.asClass(StateRepository),
     districtRepository: awilix.asClass(DistrictRepository),
+    parlourRepository: awilix.asClass(ParlourRepository),
 
     // Other stuff goes here
     mongooseUserModel: awilix.asValue(MongooseUserModel),
