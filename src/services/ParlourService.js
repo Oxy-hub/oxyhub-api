@@ -5,7 +5,7 @@ class ParlourService {
     this.parlourRepository = parlourRepository;
   }
 
-  async fetchParlours(state, district, type) {
+  async fetchAllParlours(state, district, type) {
     try {
       const parlours = await this.parlourRepository.getParlours(
         state,
@@ -18,6 +18,16 @@ class ParlourService {
       throw AppError.serverError();
     }
   }
+
+  // async fetchParlourById(id) {
+  //   try {
+  //     const parlour = await this.parlourRepository.getParlourById(id);
+
+  //     return parlour;
+  //   } catch (e) {
+  //     throw AppError.serverError();
+  //   }
+  // }
 }
 
 exports.ParlourService = ParlourService;
