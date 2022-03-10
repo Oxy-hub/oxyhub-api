@@ -1,13 +1,13 @@
 const AppError = require('../errors/AppError');
 
 class OrderService {
-  constructor({ ordertRepository }) {
-    this.ordertRepository = ordertRepository;
+  constructor({ orderRepository }) {
+    this.orderRepository = orderRepository;
   }
 
   async createOrder(userId, parlourId, type) {
     try {
-      const order = await this.ordertRepository.createNewOrder(
+      const order = await this.orderRepository.createNewOrder(
         userId,
         parlourId,
         type
