@@ -1,5 +1,5 @@
 const { Container } = require('../../loaders/awilix');
-const { createSuccessDto } = require('../../dto');
+const { createSuccessDto, orders: orderDtos } = require('../../dto');
 
 exports.createOrder = async (req, res) => {
   const { parlourId, type } = req.body;
@@ -14,8 +14,8 @@ exports.createOrder = async (req, res) => {
 
   return res.send(
     createSuccessDto(
-      `Your order with order no. ${order} is successfully booked!`
-      //   districtDtos.getResponse(districts)
+      `Your order with order no. ${order} is successfully booked!`,
+      orderDtos.postResponse(order)
     )
   );
 };

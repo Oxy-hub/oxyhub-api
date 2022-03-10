@@ -5,7 +5,7 @@ const { orders } = require('../dto');
 module.exports = (router, controllers = orderControllers) => {
   router.post('/', validateDto(orders.postRequest), controllers.createOrder);
 
-  //   router.get('/', controllers.viewOrders);
+  router.get('/', controllers.viewOrders);
 
   return router;
 };

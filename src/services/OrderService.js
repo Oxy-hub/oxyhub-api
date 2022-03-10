@@ -18,6 +18,20 @@ class OrderService {
       throw AppError.serverError();
     }
   }
+
+  async fetchOrders(userId) {
+    try {
+      // if (!userId) {
+      //   throw new Error();
+      // }
+
+      const orders = await this.orderRepository.readOrders(userId);
+
+      return orders;
+    } catch (e) {
+      throw AppError.serverError();
+    }
+  }
 }
 
 exports.OrderService = OrderService;
