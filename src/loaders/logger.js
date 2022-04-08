@@ -23,7 +23,17 @@ const configureDevLogger = () =>
   });
 
 // Logger config for production environment (Needs to change)
-const configureProdLogger = () => {};
+const configureProdLogger = () =>
+  createLogger({
+    level: 'debug',
+    format: combine(
+      format.colorize(),
+      timestamp({ format: 'HH:MM:SS' }),
+      format.errors({ stack: true }),
+      devLogFormat
+    ),
+    transports: [new transports.Console()]
+  });
 
 let logger = null;
 if (config.mode === 'dev') {
