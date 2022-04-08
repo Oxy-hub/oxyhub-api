@@ -1,5 +1,5 @@
 const { Container } = require('../../loaders/awilix');
-const { createSuccessDto, state: stateDtos } = require('../../dto');
+const { createSuccessDto, states: stateDtos } = require('../../dto');
 
 exports.fetchStates = async (req, res) => {
   // Resolve States service from container
