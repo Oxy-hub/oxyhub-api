@@ -1,6 +1,6 @@
 const { Container } = require('../../loaders/awilix');
 const config = require('../../config');
-const { createSuccessDto, authResponseDto } = require('../../dto');
+const { createSuccessDto, auth: authDtos } = require('../../dto');
 
 exports.oAuthLogin = async (req, res) => {
   const { code, provider } = req.body;
@@ -20,7 +20,7 @@ exports.oAuthLogin = async (req, res) => {
     return res.send(
       createSuccessDto(
         'New user. Please complete registration!',
-        authResponseDto({
+        authDtos.postResponse({
           accessToken,
           isInitial,
           isAuthenticated: !isInitial,
@@ -44,7 +44,7 @@ exports.oAuthLogin = async (req, res) => {
     .send(
       createSuccessDto(
         'User logged in successfully!',
-        authResponseDto({
+        authDtos.postResponse({
           accessToken,
           isInitial,
           isAuthenticated: !isInitial
