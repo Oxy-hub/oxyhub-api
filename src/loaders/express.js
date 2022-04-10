@@ -3,12 +3,17 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const swaggerUi = require('swagger-ui-express');
 const morgan = require('morgan');
+const path = require('path');
 const routes = require('../routes');
 const middlewares = require('../middlewares');
 const errors = require('../errors');
 const config = require('../config');
 
 module.exports = (app, { swaggerSpec }) => {
+  /** SERVER SETTINGS */
+  app.set('view engine', 'ejs');
+  app.set('views', path.join(__dirname, '../views'));
+
   /** 3RD PARTY MIDDLEWARES */
   app.use(
     morgan(':method :url :status :res[content-length] - :response-time ms')
@@ -16,7 +21,7 @@ module.exports = (app, { swaggerSpec }) => {
 
   app.use(
     cors({
-      origin: config.origins,
+      origin: config.origin,
       credentials: true
     })
   );

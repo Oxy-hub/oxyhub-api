@@ -30,4 +30,4 @@ class GithubRepository {
   }
 }
 
-module.exports = GithubRepository;
+exports.GithubRepository = GithubRepository;

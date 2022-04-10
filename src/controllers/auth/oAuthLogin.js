@@ -2,19 +2,18 @@ const { Container } = require('../../loaders/awilix');
 const config = require('../../config');
 const { createSuccessDto, authResponseDto } = require('../../dto');
 
-exports.githubLogin = async (req, res) => {
-  const { code } = req.body;
+exports.oAuthLogin = async (req, res) => {
+  const { code, provider } = req.body;
 
-  const UserService = Container.resolve('userService');
-  const TokenService = Container.resolve('tokenService');
+  const AuthService = Container.resolve('authService');
 
-  // Resolve user profile from Github and try to login
-  const userProfile = await UserService.useGithubOAuth(code);
-  const { isInitial, userId } = await UserService.login(userProfile);
+  // Resolve user profile from an OAuth Provider and try to login
+  const userProfile = await AuthService.fetchProfile(code, provider);
+  const { isInitial, userId } = await AuthService.login(userProfile);
 
   // If user is initial, do not set refresh token in the cookie, but send the user profile
   if (isInitial) {
-    const accessToken = TokenService.generateAccessToken(userId, {
+    const accessToken = AuthService.generateAccessToken(userId, {
       isInitial: true,
       email: userProfile.email
     });
@@ -31,10 +30,10 @@ exports.githubLogin = async (req, res) => {
     );
   }
 
-  const accessToken = TokenService.generateAccessToken(userId, {
+  const accessToken = AuthService.generateAccessToken(userId, {
     isInitial: false
   });
-  const refreshToken = TokenService.generateRefreshToken(userId);
+  const refreshToken = AuthService.generateRefreshToken(userId);
 
   return res
     .cookie('RTK', refreshToken, {
