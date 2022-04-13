@@ -1,4 +1,5 @@
 const { Container } = require('../loaders/awilix');
+const AppError = require('../errors/AppError');
 
 exports.authMiddleware = async (req, res, next) => {
   try {
@@ -8,15 +9,17 @@ exports.authMiddleware = async (req, res, next) => {
 
     // Verify whether access_token is valid or not
     const AuthService = Container.resolve('authService');
-    const data = await AuthService.verifyAccessToken(accessToken);
+    const { data, id } = await AuthService.verifyAccessToken(accessToken);
 
-    // Attach isInitial status, email and userId to request object
-    req.isInitial = data.isInitial;
-    req.email = data.email;
-    req.userId = data.id;
+    // If isInitial is false and id is also null, then a wrong access token is being sent
+    if (!data.isInitial && id === null)
+      throw new AppError(401, 'Unauthorized request!', [
+        'Access to this API is not allowed with this access token'
+      ]);
 
-    // Implement the profile image url here
-    // req.token_data = data.info;
+    // Attach isInitial status, and additional data to the req object
+    req.userId = id;
+    req.tokenData = { ...data };
 
     next();
   } catch (err) {
