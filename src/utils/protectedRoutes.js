@@ -1,16 +1,5 @@
-module.exports = ['/api/v0/users', '/api/v0/users/me', '/logout'];
+const { apiPrefix } = require('../config');
 
-// const protectedRoutes = {
-//   users: [
-//     {
-//       method: 'POST',
-//       endpoint: 'root'
-//     },
-//     {
-//       method: 'GET',
-//       endpoint: 'me'
-//     }
-//   ]
-// };
+const routes = ['/users', '/users/me'];
 
-// module.exports = protectedRoutes;
+module.exports = routes.map(route => `${apiPrefix}${route}`);
