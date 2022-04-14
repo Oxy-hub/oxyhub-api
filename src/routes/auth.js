@@ -1,10 +1,10 @@
 const authControllers = require('../controllers/auth');
 const { validateDto } = require('../middlewares');
-const { authRequestDto } = require('../dto');
+const { auth } = require('../dto');
 
 module.exports = (router, controllers = authControllers) => {
-  router.post('/google', controllers.googleLogin);
-  router.post('/github', validateDto(authRequestDto), controllers.githubLogin);
+  router.post('/login', validateDto(auth.postRequest), controllers.oAuthLogin);
+  router.get('/callback', controllers.callbackHandler);
 
   return router;
 };

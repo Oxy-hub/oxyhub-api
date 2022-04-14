@@ -5,10 +5,10 @@ const config = require('../config');
 module.exports = async () => {
   const client = createClient({
     socket: {
-      host: config.redis.redisHostName,
-      port: config.redis.redisPort
+      host: config.redis.hostName,
+      port: config.redis.port
     },
-    password: config.redis.redisPassword
+    password: config.redis.password
   });
 
   try {

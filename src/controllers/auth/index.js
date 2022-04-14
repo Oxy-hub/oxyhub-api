@@ -1,8 +1,8 @@
-const { githubLogin } = require('./githubLogin');
-const { googleLogin } = require('./googleLogin');
+const { oAuthLogin } = require('./oAuthLogin');
+const { callbackHandler } = require('./callbackHandler');
 const wrapAsync = require('../../utils/wrapAsync');
 
 module.exports = {
-  googleLogin: wrapAsync(googleLogin),
-  githubLogin: wrapAsync(githubLogin)
+  oAuthLogin: wrapAsync(oAuthLogin),
+  callbackHandler
 };

@@ -1,5 +1,5 @@
 const AppError = require('../errors/AppError');
-// const BODY = "BODY";
+
 const PARAMS = 'PARAMS';
 const QUERY = 'QUERY';
 
@@ -29,7 +29,6 @@ exports.validateDto = (schema, option) => async (req, _, next) => {
 
     next();
   } catch (err) {
-    // console.log(err.errors);
     next(new AppError(400, 'Input validation failed!', err.errors));
   }
 };
