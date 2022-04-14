@@ -17,8 +17,7 @@ exports.registerUser = async (req, res) => {
 
   // Generate new access and refresh tokens to be sent back
   const accessToken = AuthService.generateAccessToken(response.id, {
-    isInitial: false,
-    email: response.email
+    isInitial: false
   });
   const refreshToken = await AuthService.generateRefreshToken(response.id);
 
