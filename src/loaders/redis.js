@@ -2,15 +2,17 @@ const { createClient } = require('redis');
 const logger = require('./logger');
 const config = require('../config');
 
-module.exports = async () => {
-  const client = createClient({
-    socket: {
-      host: config.redis.hostName,
-      port: config.redis.port
-    },
-    password: config.redis.password
-  });
+const client = createClient({
+  socket: {
+    host: config.redis.hostName,
+    port: config.redis.port
+  },
+  password: config.redis.password
+});
 
+exports.redisClient = client;
+
+exports.redisInit = async () => {
   try {
     await client.connect();
     logger.info('REDIS CLIENT IS READY!');
@@ -19,6 +21,4 @@ module.exports = async () => {
     logger.error(e);
     process.exit();
   }
-
-  return client;
 };

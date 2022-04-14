@@ -1,13 +1,9 @@
 const userControllers = require('../controllers/users');
 const { validateDto } = require('../middlewares');
-const { registerUserRequestDto } = require('../dto');
+const { users } = require('../dto');
 
 module.exports = (router, controllers = userControllers) => {
-  router.post(
-    '/',
-    validateDto(registerUserRequestDto),
-    controllers.registerUser
-  );
+  router.post('/', validateDto(users.postRequest), controllers.registerUser);
   router.get('/me', controllers.getUser);
 
   return router;

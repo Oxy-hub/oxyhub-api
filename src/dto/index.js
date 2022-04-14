@@ -1,12 +1,11 @@
 const getUserResponseDto = require('./getUserResponse');
-const registerUserRequestDto = require('./registerUserRequest');
-const registerUserResponseDto = require('./registerUserResponse');
 const refreshResponseDto = require('./refreshResponse');
 const authDtos = require('./auth');
 const stateDtos = require('./states');
 const districtDtos = require('./districts');
 const parlourDtos = require('./parlours');
 const orderDtos = require('./orders');
+const userDtos = require('./users');
 
 const createSuccessDto = (message, data, metadata) => ({
   success: true,
@@ -25,8 +24,6 @@ module.exports = {
   createSuccessDto,
   createErrorDto,
   getUserResponseDto,
-  registerUserRequestDto,
-  registerUserResponseDto,
   refreshResponseDto,
 
   auth: {
@@ -43,5 +40,8 @@ module.exports = {
   },
   orders: {
     ...orderDtos
+  },
+  users: {
+    ...userDtos
   }
 };
