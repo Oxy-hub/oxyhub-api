@@ -1,6 +1,6 @@
-const { validateRefreshToken } = require('./validateRefreshToken');
+const { refreshUser } = require('./refreshUser');
 const wrapAsync = require('../../utils/wrapAsync');
 
 module.exports = {
-  validateRefreshToken: wrapAsync(validateRefreshToken)
+  refreshUser: wrapAsync(refreshUser)
 };
