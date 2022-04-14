@@ -15,7 +15,8 @@ exports.oAuthLogin = async (req, res) => {
   if (isInitial) {
     const accessToken = AuthService.generateAccessToken(userId, {
       isInitial: true,
-      email: userProfile.email
+      email: userProfile.email,
+      avatar: userProfile.avatar
     });
     return res.send(
       createSuccessDto(
