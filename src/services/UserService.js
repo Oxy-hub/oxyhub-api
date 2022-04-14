@@ -1,94 +1,53 @@
-const xss = require('xss');
+// const xss = require('xss');
 const AppError = require('../errors/AppError');
 
 class UserService {
-  constructor({ userRepository, githubRepository }) {
+  constructor({ userRepository, githubRepository, utilityService }) {
     this.userRepository = userRepository;
     this.githubRepository = githubRepository;
+    this.utilityService = utilityService;
   }
 
-  sanitize(user) {
-    const newObject = '';
-    Object.keys(user).forEach(key => {
-      const purified = xss(newObject[key]);
-      newObject[key] = purified;
+  async registerUser(isInitial, data) {
+    // Only allow registration if isInitial is present
+    if (!isInitial) {
+      throw new Error();
+    }
+
+    // Sanitize user input to prevent XSS
+    const sanitizedUser = this.utilityService.sanitizeObject(data, {
+      skipKeys: ['avatar']
     });
 
-    return user;
-  }
-
-  sanitizeName(name) {
-    // eslint-disable-next-line
-    name = name.split(' ');
-    const firstName = name[0];
-    const lastName = name[name.length - 1];
-    const middleName = name.splice(1, name.length - 2).join(' ');
-
-    return { firstName, middleName, lastName };
-  }
-
-  async useGithubOAuth(code) {
-    try {
-      const accessToken =
-        await this.githubRepository.exchangeCodeForAccessToken(code);
-      const [name, email] = await Promise.all([
-        this.githubRepository.getUserProfile(accessToken),
-        this.githubRepository.getUserEmail(accessToken)
+    // Check if the user already exists in the database
+    const user = await this.userRepository.readUserByEmail(sanitizedUser.email);
+    if (user) {
+      throw new AppError(401, 'User already exists!', [
+        'User with the same email has already been created'
       ]);
-
-      const user = this.sanitizeName(name);
-      return { ...user, email };
-    } catch (e) {
-      throw new AppError(400, 'Github failed to authorize user!');
     }
-  }
 
-  async login(userProfile) {
-    try {
-      // Check if user already exists in database
-      const user = await this.userRepository.readUserByEmail(userProfile.email);
+    // Create a new user in the database
+    const newUser = await this.userRepository.createUser(sanitizedUser);
 
-      // If the user does not exist, user is coming for first time
-      if (!user) {
-        return { isInitial: true, userId: null };
-      }
-
-      // If user exists, return the userId
-      return { isInitial: false, userId: user.id };
-    } catch (e) {
-      throw AppError.serverError();
-    }
-  }
-
-  async register(isInitial, user) {
-    try {
-      // Only allow registration if isInitial is present
-      if (!isInitial) {
-        throw new Error();
-      }
-      // Sanitize user input to prevent XSS
-      // const sanitizedUser = this.sanitize(user);
-
-      // Create a new user in the database
-      const newUser = await this.userRepository.createUser(user);
-
-      return newUser;
-    } catch (e) {
-      throw AppError.serverError();
-    }
+    return newUser;
   }
 
   async fetchUser(userId) {
-    try {
-      // Fetch user from Database by Id
-      if (!userId) {
-        throw new Error();
-      }
-
-      return await this.userRepository.readUserById(userId);
-    } catch (e) {
-      throw AppError.serverError();
+    // Fetch user from Database by Id
+    if (!userId) {
+      throw new Error();
     }
+
+    const user = await this.userRepository.readUserById(userId);
+
+    if (!user) {
+      throw new AppError(400, 'User was not found!', [
+        'The id of the access token does not correspond to any user in the database'
+      ]);
+    }
+
+    return user;
   }
 }
 

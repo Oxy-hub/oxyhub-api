@@ -1,13 +1,13 @@
 const awilix = require('awilix');
+
 // Service imports
 const { AuthService } = require('../services/AuthService');
 const { UserService } = require('../services/UserService');
-const { TokenService } = require('../services/TokenService');
 const { StateService } = require('../services/StateService');
 const { DistrictService } = require('../services/DistrictService');
 const { ParlourService } = require('../services/ParlourService');
 const { OrderService } = require('../services/OrderService');
-// const { UtilityService } = require('../services/UtilityService');
+const { UtilityService } = require('../services/UtilityService');
 
 // Repository imports
 const { UserRepository } = require('../repositories/UserRepository');
@@ -20,24 +20,24 @@ const { GithubRepository } = require('../repositories/GithubRepository');
 const { GoogleRepository } = require('../repositories/GoogleRepository');
 
 // Other imports
-const MongooseUserModel = require('../models/User');
+const UserModel = require('../models/User');
+const { redisClient } = require('./redis');
 
 // Create the container and set the injectionMode to PROXY (which is also the default).
 const Container = awilix.createContainer({
   injectionMode: awilix.InjectionMode.PROXY
 });
 
-const awilixInit = ({ redisClient: redis }) => {
+const awilixInit = () => {
   Container.register({
     // Services go here
     authService: awilix.asClass(AuthService),
     userService: awilix.asClass(UserService),
-    tokenService: awilix.asClass(TokenService),
     stateService: awilix.asClass(StateService),
     districtService: awilix.asClass(DistrictService),
     parlourService: awilix.asClass(ParlourService),
     orderService: awilix.asClass(OrderService),
-    // utilityService: awilix.asClass(UtilityService),
+    utilityService: awilix.asClass(UtilityService),
 
     // Repositories go here
     userRepository: awilix.asClass(UserRepository),
@@ -50,8 +50,8 @@ const awilixInit = ({ redisClient: redis }) => {
     orderRepository: awilix.asClass(OrderRepository),
 
     // Other stuff goes here
-    mongooseUserModel: awilix.asValue(MongooseUserModel),
-    redisClient: awilix.asValue(redis)
+    UserModel: awilix.asValue(UserModel),
+    redisClient: awilix.asValue(redisClient)
   });
 };
 

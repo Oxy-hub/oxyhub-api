@@ -5,8 +5,10 @@ class TokenRepository {
     this.redisClient = redisClient;
   }
 
-  constructRefreshTokenKey(userId, tokenId) {
-    return `${userId}:${tokenId}`;
+  async storeRefreshToken(token, expiry) {
+    await this.redisClient.set(token, 0, {
+      PX: expiry
+    });
   }
 
   async createRefreshTokenInRedis(userId, tokenId) {

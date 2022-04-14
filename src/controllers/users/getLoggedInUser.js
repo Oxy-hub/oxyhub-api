@@ -1,7 +1,7 @@
 const { Container } = require('../../loaders/awilix');
-const { createSuccessDto, getUserResponseDto } = require('../../dto');
+const { createSuccessDto, users: userDtos } = require('../../dto');
 
-exports.getUser = async (req, res) => {
+exports.getLoggedInUser = async (req, res) => {
   // Resolve user service from container
   const UserService = Container.resolve('userService');
 
@@ -10,6 +10,6 @@ exports.getUser = async (req, res) => {
 
   // Return the user in the correct format
   return res.send(
-    createSuccessDto('User successfully found!', getUserResponseDto(user))
+    createSuccessDto('User successfully found!', userDtos.me.getResponse(user))
   );
 };

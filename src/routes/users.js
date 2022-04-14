@@ -1,14 +1,15 @@
 const userControllers = require('../controllers/users');
-const { validateDto } = require('../middlewares');
-const { registerUserRequestDto } = require('../dto');
+const { validateDto, isInitialAuth, isAuth } = require('../middlewares');
+const { users } = require('../dto');
 
 module.exports = (router, controllers = userControllers) => {
   router.post(
     '/',
-    validateDto(registerUserRequestDto),
+    isInitialAuth,
+    validateDto(users.postRequest),
     controllers.registerUser
   );
-  router.get('/me', controllers.getUser);
+  router.get('/me', isAuth, controllers.getLoggedInUser);
 
   return router;
 };

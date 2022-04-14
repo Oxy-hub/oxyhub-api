@@ -44,13 +44,14 @@ class AuthService {
     try {
       const accessToken =
         await this.githubRepository.exchangeCodeForAccessToken(code);
-      const [name, email] = await Promise.all([
+      // eslint-disable-next-line camelcase
+      const [{ name, avatar_url }, email] = await Promise.all([
         this.githubRepository.getUserProfile(accessToken),
         this.githubRepository.getUserEmail(accessToken)
       ]);
 
       const user = this.splitName(name);
-      return { ...user, email };
+      return { ...user, email, avatar: avatar_url };
     } catch (e) {
       throw new AppError(400, 'Github failed to authorize user!');
     }
@@ -62,12 +63,11 @@ class AuthService {
       const accessToken =
         await this.googleRepository.exchangeCodeForAccessToken(code);
 
-      const { name, email } = await this.googleRepository.getUserProfile(
-        accessToken
-      );
+      const { name, email, picture } =
+        await this.googleRepository.getUserProfile(accessToken);
 
       const user = this.splitName(name);
-      return { ...user, email };
+      return { ...user, email, avatar: picture };
     } catch (e) {
       throw new AppError(400, 'Google failed to authorize user!');
     }
@@ -120,7 +120,10 @@ class AuthService {
       },
       REFRESH_TOKEN
     );
-    await this.tokenRepository.createRefreshTokenInRedis(id, jti);
+    await this.tokenRepository.storeRefreshToken(
+      `${id}:${jti}`,
+      config.tokens.expiry.refreshToken
+    );
     return refreshToken;
   }
   /** ---------------------------------------- */
@@ -129,26 +132,22 @@ class AuthService {
   /** ---------------------------------------- */
   async verifyAccessToken(token) {
     try {
-      // const secret = config.tokens.accessTokenSecret;
-      // const { id } = this.verify(token, secret);
-
-      // // If token is not blacklisted get isInitial status of the token
-      // this.isBlacklisted(id, token);
-      // const isInitial = await this.userRepository.readIsInitial(id);
-      // return { id, isInitial };
-
+      // Verify whether the token is valid or not
       const secret = config.tokens.secrets.accessToken;
-      const data = this.verifyToken(token, secret);
+      const payload = this.tokenVerifier(token, secret);
 
-      // if isInital is true, then just return true, no need for other verification.
-      if (data.isInitial) {
-        return data;
-      }
-
-      // Otherwise perform the redis checks
-      return data;
+      // If token is verified, return the token data
+      return payload;
     } catch (e) {
-      throw new AppError(401, 'Failed to verify access token!');
+      if (e.name === 'TokenExpiredError')
+        throw new AppError(401, 'Session Expired! Reload and Try Again.', [
+          'Access token expired'
+        ]);
+      else if (e.name === 'JsonWebTokenError')
+        throw new AppError(401, 'Invalid Request! Reload and Try Again', [
+          'Failed to verify access token'
+        ]);
+      else throw new Error();
     }
   }
 
@@ -226,65 +225,6 @@ class AuthService {
     }
   }
   /** ---------------------------------------- */
-
-  async isBlacklisted(id, token) {
-    // Check redis for blacklisted tokens
-    const blacklist = await this.tokenRepository.readBlackList(id);
-    if (blacklist.includes(token)) {
-      throw new Error();
-    } else {
-      return false;
-    }
-  }
-
-  // generateLoginTokens(id, isInitial) {
-  //   try {
-  //     const jti = uuidv4();
-  //     const accessToken = this.generateAccessToken({ id, isInitial });
-
-  //     // If user is initial, return both access and refresh tokens
-  //     if (!isInitial) {
-  //       const refreshToken = this.generateRefreshToken({ jti, id });
-  //       this.tokenRepository.createRefreshTokenInRedis(id, jti);
-  //       return { accessToken, refreshToken };
-  //     }
-
-  //     // If user is not initial, only return access token
-  //     return { accessToken, refreshToken: null };
-  //   } catch (e) {
-  //     throw AppError.serverError();
-  //   }
-  // }
-
-  // generateTokens(id, data = {}, type = null) {
-  //   const jti = uuidv4();
-  //   switch (type) {
-  //     case 'INITIAL_USER': {
-  //       const accessToken = this.generateAccessToken({
-  //         id,
-  //         isInital: true,
-  //         data
-  //       });
-  //       return accessToken;
-  //       // Some other stuff about blacklisting this token
-  //     }
-
-  //     default: {
-  //       const accessToken = this.generateAccessToken({
-  //         id,
-  //         isInital: false,
-  //         data
-  //       });
-  //       // Some other stuff about whitelisting this token
-  //       const refreshToken = this.generateRefreshTokens({
-  //         id,
-  //         jti
-  //       });
-
-  //       return { accessToken, refreshToken };
-  //     }
-  //   }
-  // }
 }
 
 exports.AuthService = AuthService;

@@ -1,11 +1,6 @@
-// const logger = require('../loaders/logger');
-
 class UserRepository {
-  constructor({ mongooseUserModel, redisClient }) {
-    this.MongooseUserModel = mongooseUserModel;
-    this.redisClient = redisClient;
-    // logger.debug(redisClient);
-    // console.log('redis client from user repo : ', redisClient);
+  constructor({ UserModel }) {
+    this.UserModel = UserModel;
   }
 
   toPersistance(user) {
@@ -13,49 +8,38 @@ class UserRepository {
       firstName: user.first_name,
       middleName: user.middle_name,
       lastName: user.last_name,
-      email: user.email
+      email: user.email,
+      avatar: user.avatar
     };
   }
 
-  async createUser(user) {
-    const newUser = new this.MongooseUserModel(this.toPersistance(user));
+  async createUser(data) {
+    const newUser = new this.UserModel(this.toPersistance(data));
     await newUser.save();
     return newUser;
   }
 
-  async updateUser(id, userObject) {
-    await this.MongooseUserModel.findByIdAndUpdate(id, userObject, {
-      new: true,
-      lean: true
-    });
+  async readUser(filter) {
+    const user = await this.UserModel.findOne(filter);
+    return user;
   }
 
   async readUserByEmail(email) {
-    const user = await this.MongooseUserModel.findOne({ email }).exec();
+    const user = await this.readUser({ email });
     return user;
   }
 
-  async readUserById(userId) {
-    const user = await this.MongooseUserModel.findById(userId).exec();
+  async readUserById(id) {
+    const user = await this.readUser({ _id: id });
     return user;
   }
 
-  constructInitialKey(id) {
-    return `${id}:initial`;
-  }
-
-  async createIsInitialInRedis(id) {
-    await this.set(this.constructInitialKey(id), true);
-  }
-
-  async readIsInitialFromRedis(id) {
-    const response = await this.get(this.constructInitialKey(id));
-    return response;
-  }
-
-  async deleteIsInitialFromRedis(id) {
-    await this.del(this.constructInitialKey(id));
-  }
+  // async updateUser(id, userObject) {
+  //   await this.userModel.findByIdAndUpdate(id, userObject, {
+  //     new: true,
+  //     lean: true
+  //   });
+  // }
 }
 
 exports.UserRepository = UserRepository;

@@ -1,9 +1,16 @@
-const { authMiddleware } = require('./auth');
-const protectedRoutes = require('../utils/protectedRoutes');
+const isAuth = require('./isAuth');
+const isInitialAuth = require('./isInitialAuth');
+const enableOptionalAuth = require('./enableOptionalAuth');
 const { validateDto } = require('./validateDto');
 
-const init = app => {
-  app.use(protectedRoutes, authMiddleware);
+const init = () => {
+  // Do nothing for now
 };
 
-module.exports = { init, validateDto };
+module.exports = {
+  init,
+  isAuth,
+  isInitialAuth,
+  enableOptionalAuth,
+  validateDto
+};

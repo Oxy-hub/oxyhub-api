@@ -1,24 +1,25 @@
 const { Container } = require('../../loaders/awilix');
 const config = require('../../config');
-const { createSuccessDto, registerUserResponseDto } = require('../../dto');
+const { createSuccessDto, users: usersDtos } = require('../../dto');
 
 exports.registerUser = async (req, res) => {
-  const { email, isInitial } = req;
+  const { email, isInitial, avatar } = req.tokenData;
 
   const UserService = Container.resolve('userService');
-  const TokenService = Container.resolve('tokenService');
+  const AuthService = Container.resolve('authService');
 
   // Send isInitial to User service for checking along with req body and email from access token
-  const response = await UserService.register(isInitial, {
+  const response = await UserService.registerUser(isInitial, {
     email,
+    avatar,
     ...req.body
   });
 
   // Generate new access and refresh tokens to be sent back
-  const accessToken = TokenService.generateAccessToken(response.id, {
+  const accessToken = AuthService.generateAccessToken(response.id, {
     isInitial: false
   });
-  const refreshToken = TokenService.generateRefreshToken(response.id);
+  const refreshToken = await AuthService.generateRefreshToken(response.id);
 
   return res
     .cookie('RTK', refreshToken, {
@@ -29,7 +30,7 @@ exports.registerUser = async (req, res) => {
     .send(
       createSuccessDto(
         'User successfully registered!',
-        registerUserResponseDto({
+        usersDtos.postResponse({
           accessToken,
           persistanceObj: response
         })
