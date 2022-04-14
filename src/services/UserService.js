@@ -34,16 +34,20 @@ class UserService {
   }
 
   async fetchUser(userId) {
-    try {
-      // Fetch user from Database by Id
-      if (!userId) {
-        throw new Error();
-      }
-
-      return await this.userRepository.readUserById(userId);
-    } catch (e) {
-      throw AppError.serverError();
+    // Fetch user from Database by Id
+    if (!userId) {
+      throw new Error();
     }
+
+    const user = await this.userRepository.readUserById(userId);
+
+    if (!user) {
+      throw new AppError(400, 'User was not found!', [
+        'The id of the access token does not correspond to any user in the database'
+      ]);
+    }
+
+    return user;
   }
 }
 
