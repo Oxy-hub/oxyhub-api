@@ -1,8 +1,8 @@
 const awilix = require('awilix');
+
 // Service imports
 const { AuthService } = require('../services/AuthService');
 const { UserService } = require('../services/UserService');
-const { TokenService } = require('../services/TokenService');
 const { StateService } = require('../services/StateService');
 const { DistrictService } = require('../services/DistrictService');
 const { ParlourService } = require('../services/ParlourService');
@@ -33,7 +33,6 @@ const awilixInit = () => {
     // Services go here
     authService: awilix.asClass(AuthService),
     userService: awilix.asClass(UserService),
-    tokenService: awilix.asClass(TokenService),
     stateService: awilix.asClass(StateService),
     districtService: awilix.asClass(DistrictService),
     parlourService: awilix.asClass(ParlourService),
