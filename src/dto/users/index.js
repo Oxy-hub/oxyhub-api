@@ -1,7 +1,11 @@
 const postRequest = require('./postRequest');
 const postResponse = require('./postResponse');
+const getResponse = require('./me/getRequest');
 
 module.exports = {
   postRequest,
-  postResponse
+  postResponse,
+  me: {
+    getResponse
+  }
 };

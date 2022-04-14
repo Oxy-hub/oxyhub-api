@@ -4,7 +4,7 @@ const { users } = require('../dto');
 
 module.exports = (router, controllers = userControllers) => {
   router.post('/', validateDto(users.postRequest), controllers.registerUser);
-  router.get('/me', controllers.getUser);
+  router.get('/me', controllers.getLoggedInUser);
 
   return router;
 };

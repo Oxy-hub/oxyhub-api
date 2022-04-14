@@ -1,8 +1,8 @@
 const { registerUser } = require('./registerUser');
-const { getUser } = require('./getUser');
+const { getLoggedInUser } = require('./getLoggedInUser');
 const wrapAsync = require('../../utils/wrapAsync');
 
 module.exports = {
   registerUser: wrapAsync(registerUser),
-  getUser: wrapAsync(getUser)
+  getLoggedInUser: wrapAsync(getLoggedInUser)
 };

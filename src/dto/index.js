@@ -1,4 +1,3 @@
-const getUserResponseDto = require('./getUserResponse');
 const refreshResponseDto = require('./refreshResponse');
 const authDtos = require('./auth');
 const stateDtos = require('./states');
@@ -23,7 +22,6 @@ const createErrorDto = (error, metadata) => ({
 module.exports = {
   createSuccessDto,
   createErrorDto,
-  getUserResponseDto,
   refreshResponseDto,
 
   auth: {

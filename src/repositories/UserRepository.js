@@ -29,6 +29,11 @@ class UserRepository {
     return user;
   }
 
+  async readUserById(id) {
+    const user = await this.readUser({ _id: id });
+    return user;
+  }
+
   // async updateUser(id, userObject) {
   //   await this.userModel.findByIdAndUpdate(id, userObject, {
   //     new: true,

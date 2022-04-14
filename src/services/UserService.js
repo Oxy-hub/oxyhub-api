@@ -8,16 +8,6 @@ class UserService {
     this.utilityService = utilityService;
   }
 
-  // sanitize(user) {
-  //   const newObject = '';
-  //   Object.keys(user).forEach(key => {
-  //     const purified = xss(newObject[key]);
-  //     newObject[key] = purified;
-  //   });
-
-  //   return user;
-  // }
-
   async registerUser(isInitial, data) {
     // Only allow registration if isInitial is present
     if (!isInitial) {
