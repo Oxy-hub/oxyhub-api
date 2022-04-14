@@ -1,5 +1,5 @@
-const refreshResponseDto = require('./refreshResponse');
 const authDtos = require('./auth');
+const refreshDtos = require('./refresh');
 const stateDtos = require('./states');
 const districtDtos = require('./districts');
 const parlourDtos = require('./parlours');
@@ -22,10 +22,12 @@ const createErrorDto = (error, metadata) => ({
 module.exports = {
   createSuccessDto,
   createErrorDto,
-  refreshResponseDto,
 
   auth: {
     ...authDtos
+  },
+  refresh: {
+    ...refreshDtos
   },
   states: {
     ...stateDtos

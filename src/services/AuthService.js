@@ -153,22 +153,34 @@ class AuthService {
 
   async verifyRefreshToken(refreshToken) {
     try {
-      console.log('AAAAAAAA', refreshToken);
       const secret = config.tokens.secrets.refreshToken;
 
       // Verify the validity of refresh token
-      const { id, jti } = this.verify(refreshToken, secret);
+      const { id, jti } = this.tokenVerifier(refreshToken, secret);
 
       // Check whether the refresh token is whitelisted in redis
-      await this.tokenRepository.validateRefreshTokenFromRedis(id, jti);
+      const value = await this.tokenRepository.readRefreshToken(`${id}:${jti}`);
+      if (!value) {
+        throw new AppError(401, 'Invalid Request!', [
+          'Refresh token is not valid'
+        ]);
+      }
 
       // Delete the existing refresh token in redis to facilitate rotation
-      await this.tokenRepository.deleteRefreshTokenFromRedis(id, jti);
+      await this.tokenRepository.deleteRefreshToken(`${id}:${jti}`);
 
       return id;
     } catch (e) {
-      console.log(e);
-      throw new AppError(401, 'Unauthorized! Failed to verify refresh token.');
+      if (e.name === 'TokenExpiredError')
+        throw new AppError(401, 'Session Expired! Login again.', [
+          'Refresh token has expired'
+        ]);
+      else if (e.name === 'JsonWebTokenError')
+        throw new AppError(401, 'Invalid Request! Try Again', [
+          'Failed to verify refresh token'
+        ]);
+      else if (e instanceof AppError) throw e;
+      else throw new Error();
     }
   }
 
