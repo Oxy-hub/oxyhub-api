@@ -34,7 +34,7 @@ exports.oAuthLogin = async (req, res) => {
   const accessToken = AuthService.generateAccessToken(userId, {
     isInitial: false
   });
-  const refreshToken = AuthService.generateRefreshToken(userId);
+  const refreshToken = await AuthService.generateRefreshToken(userId);
 
   return res
     .cookie('RTK', refreshToken, {
