@@ -1,6 +1,6 @@
 const { Container } = require('../../loaders/awilix');
 const config = require('../../config');
-const { createSuccessDto, users: usersDtos } = require('../../dto');
+const { createSuccessDto, users: userDtos } = require('../../dto');
 
 exports.registerUser = async (req, res) => {
   const { email, isInitial, avatar } = req.tokenData;
@@ -30,9 +30,8 @@ exports.registerUser = async (req, res) => {
     .send(
       createSuccessDto(
         'User successfully registered!',
-        usersDtos.postResponse({
-          accessToken,
-          persistanceObj: response
+        userDtos.postResponse({
+          accessToken
         })
       )
     );
