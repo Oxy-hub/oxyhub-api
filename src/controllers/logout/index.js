@@ -1,5 +1,6 @@
 const { logoutUser } = require('./logoutUser');
+const wrapAsync = require('../../utils/wrapAsync');
 
 module.exports = {
-  logoutUser
+  logoutUser: wrapAsync(logoutUser)
 };
