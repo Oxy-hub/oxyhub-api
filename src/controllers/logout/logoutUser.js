@@ -1,24 +1,11 @@
-// const {
-//   deleteRefreshToken,
-//   blacklistToken
-// } = require('../../utils/helpers/redisHelpers');
-// // const tokenVerifier = require('../../utils/helpers/tokenVerifierHelper');
+const { Container } = require('../../loaders/awilix');
 
-// const wrapAsync = require('../wrapAsync');
+exports.logoutUser = async (req, res) => {
+  const { RTK: refreshToken } = req.cookies;
 
-// exports.logoutUser = wrapAsync(async (req, res) => {
-//   // const { RTK } = req.cookies;
-//   const { authorization } = req.headers;
-//   const accessToken = authorization.split(' ')[1];
+  const AuthService = Container.resolve('authService');
 
-//   // Try to verify the refresh token's validity and extract the payload
-//   // const { jti, id } = tokenVerifier(RTK, 'REFRESH');
+  await AuthService.logout(refreshToken);
 
-//   // Deleting the corresponding userid:jti key in redis
-//   await deleteRefreshToken(id, jti);
-
-//   // Blacklist Access Token
-//   await blacklistToken(id, accessToken);
-
-//   res.sendStatus(200);
-// });
+  res.cookie('RTK', '').sendStatus(200);
+};

@@ -94,7 +94,11 @@ class AuthService {
   }
 
   // eslint-disable-next-line
-  async logout() {}
+  async logout(refreshToken) {
+    const { id, jti } = jwt.decode(refreshToken);
+
+    await this.tokenRepository.deleteRefreshToken(`${id}:${jti}`);
+  }
   /** ---------------------------------------- */
 
   /** Access and Refresh Token Generator Methods */
