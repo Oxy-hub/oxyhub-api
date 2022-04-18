@@ -10,6 +10,11 @@ module.exports = async (req, res, next) => {
 
     // Extract access token from header in request object
     const { authorization } = req.headers;
+    if (!authorization) {
+      throw new AppError(401, 'Unauthorized request!', [
+        'Access token is missing!'
+      ]);
+    }
     const accessToken = authorization.split(' ')[1];
 
     // Verify whether access_token is valid or not
