@@ -1,16 +1,19 @@
 class StateRepository {
-  //  eslint-disable-next-line
-  constructor() {
-    // Mongoose client should be set over here
+  constructor({ StateModel }) {
+    this.StateModel = StateModel;
   }
-  //  eslint-disable-next-line
-  async getAllStates() {
-    return [
-      { id: 1, name: 'Andhra Pradesh' },
-      { id: 2, name: 'Arunachal Pradesh' },
-      { id: 3, name: 'Assam' },
-      { id: 4, name: 'Bihar' }
-    ];
+
+  async readState(filter) {
+    const state = await this.StateModel.findOne(filter).exec();
+    return state;
+  }
+
+  async readAllStates() {
+    const states = await this.StateModel.find({})
+      .sort({ name: 1 })
+      .select({ name: 1, code: 1 })
+      .exec();
+    return states;
   }
 }
 

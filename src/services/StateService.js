@@ -7,7 +7,7 @@ class StateService {
 
   async fetchStates() {
     try {
-      const states = await this.stateRepository.getAllStates();
+      const states = await this.stateRepository.readAllStates();
 
       return states;
     } catch (e) {

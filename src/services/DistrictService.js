@@ -6,15 +6,13 @@ class DistrictService {
   }
 
   async fetchDistricts(state) {
-    try {
-      const districts = await this.districtRepository.getDistrictsByState(
-        state
-      );
+    const districts = await this.districtRepository.readDistrictsByState(state);
 
-      return districts;
-    } catch (e) {
-      throw AppError.serverError();
+    if (!districts) {
+      throw new AppError(400, 'Invalid State Code!');
     }
+
+    return districts;
   }
 }
 
