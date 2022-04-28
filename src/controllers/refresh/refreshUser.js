@@ -20,7 +20,8 @@ exports.refreshUser = async (req, res) => {
     .cookie('RTK', refreshToken, {
       httpOnly: true,
       maxAge: config.tokens.expiry.refreshToken,
-      secure: true
+      secure: true,
+      sameSite: 'none'
     })
     .send(
       createSuccessDto(
