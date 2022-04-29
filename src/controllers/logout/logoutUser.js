@@ -7,5 +7,8 @@ exports.logoutUser = async (req, res) => {
 
   await AuthService.logout(refreshToken);
 
-  res.cookie('RTK', '').sendStatus(200);
+  res
+    .clearCookie('RTK', { sameSite: 'none', secure: true, httpOnly: true })
+    .sendStatus(200)
+    .end();
 };
