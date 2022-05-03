@@ -22,6 +22,7 @@ const { GoogleRepository } = require('../repositories/GoogleRepository');
 // Other imports
 const UserModel = require('../models/User');
 const StateModel = require('../models/State');
+const ParlourModel = require('../models/Parlour');
 const { redisClient } = require('./redis');
 
 // Create the container and set the injectionMode to PROXY (which is also the default).
@@ -53,6 +54,7 @@ const awilixInit = () => {
     // Other stuff goes here
     UserModel: awilix.asValue(UserModel),
     StateModel: awilix.asValue(StateModel),
+    ParlourModel: awilix.asValue(ParlourModel),
     redisClient: awilix.asValue(redisClient)
   });
 };
