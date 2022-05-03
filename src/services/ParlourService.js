@@ -5,18 +5,10 @@ class ParlourService {
     this.parlourRepository = parlourRepository;
   }
 
-  async fetchAllParlours(state, district, type) {
-    try {
-      const parlours = await this.parlourRepository.getParlours(
-        state,
-        district,
-        type
-      );
+  async fetchAllParlours(state, district) {
+    const parlours = await this.parlourRepository.getParlours(state, district);
 
-      return parlours;
-    } catch (e) {
-      throw AppError.serverError();
-    }
+    return parlours;
   }
 
   async fetchParlourById(id) {
