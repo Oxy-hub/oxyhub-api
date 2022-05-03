@@ -41,7 +41,7 @@ const parlourSchema = new mongoose.Schema(
         trim: true,
         required: true
       },
-      pin: {
+      pincode: {
         type: String,
         required: true,
         maxLength: 6,
