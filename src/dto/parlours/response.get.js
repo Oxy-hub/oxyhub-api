@@ -8,8 +8,8 @@ module.exports = parlours => ({
             location: { stateCode, district, address, pincode }
           }) => ({
             name,
-            storeId,
-            location: { stateCode, district, address, pincode }
+            store_id: storeId,
+            location: { state_code: stateCode, district, address, pincode }
           })
         )
       : [],

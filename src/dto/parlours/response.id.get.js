@@ -9,9 +9,9 @@ module.exports = parlour => {
 
   return {
     name,
-    ownerName,
-    ownerContact,
-    storeId,
-    location: { address, district, stateCode, pincode }
+    owner_name: ownerName,
+    owner_contact: ownerContact,
+    store_id: storeId,
+    location: { address, district, state_code: stateCode, pincode }
   };
 };
