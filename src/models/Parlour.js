@@ -22,7 +22,8 @@ const parlourSchema = new mongoose.Schema(
     storeId: {
       type: String,
       trim: true,
-      required: true
+      required: true,
+      index: true
     },
     location: {
       address: {
