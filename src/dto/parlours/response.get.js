@@ -5,12 +5,13 @@ module.exports = parlours => ({
           ({
             name,
             storeId,
-            location: { stateCode, district, address, pincode }
+            location: { stateCode, district, address, pincode },
+            availabilityStatus
           }) => ({
             name,
             storeId,
             location: { stateCode, district, address, pincode },
-            availabiltyStatus: 0
+            availabilityStatus
           })
         )
       : [],
