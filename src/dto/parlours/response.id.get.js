@@ -1,3 +1,17 @@
-// No transformers required for now
+module.exports = parlour => {
+  const {
+    name,
+    ownerName,
+    ownerContact,
+    storeId,
+    location: { address, district, stateCode, pincode }
+  } = parlour;
 
-module.exports = res => res;
+  return {
+    name,
+    ownerName,
+    ownerContact,
+    storeId,
+    location: { address, district, stateCode, pincode }
+  };
+};
