@@ -11,14 +11,14 @@ class ParlourService {
     return parlours;
   }
 
-  async fetchParlourById(id) {
-    try {
-      const parlour = await this.parlourRepository.getParlourById(id);
+  async fetchParlourByStoreId(id) {
+    const parlour = await this.parlourRepository.getParlourByStoreId(id);
 
-      return parlour;
-    } catch (e) {
-      throw AppError.serverError();
+    if (parlour.length === 0) {
+      throw new AppError(400, `Parlour with id : ${id} could not be found!`);
     }
+
+    return parlour[0];
   }
 }
 

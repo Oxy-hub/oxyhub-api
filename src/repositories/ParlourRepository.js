@@ -15,12 +15,10 @@ class ParlourRepository {
     });
   }
 
-  async getParlourById(id) {
-    return {
-      id,
-      name: 'The Great Parlour',
-      address: '14,Abcd Road'
-    };
+  async getParlourByStoreId(id) {
+    return this.readParlour({
+      storeId: id
+    });
   }
 }
 
