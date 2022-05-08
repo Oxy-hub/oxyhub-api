@@ -1,7 +1,7 @@
-const getRequest = require('./getRequest');
-const getResponse = require('./getResponse');
-const getByIdRequest = require('./getByIdRequest');
-const getByIdResponse = require('./getByIdResponse');
+const getRequest = require('./request.get');
+const getResponse = require('./response.get');
+const getByIdRequest = require('./request.id.get');
+const getByIdResponse = require('./response.id.get');
 
 module.exports = {
   getRequest,

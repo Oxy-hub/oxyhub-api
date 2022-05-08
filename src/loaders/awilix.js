@@ -8,6 +8,7 @@ const { DistrictService } = require('../services/DistrictService');
 const { ParlourService } = require('../services/ParlourService');
 const { OrderService } = require('../services/OrderService');
 const { UtilityService } = require('../services/UtilityService');
+const { ItemService } = require('../services/ItemService');
 
 // Repository imports
 const { UserRepository } = require('../repositories/UserRepository');
@@ -18,10 +19,13 @@ const { ParlourRepository } = require('../repositories/ParlourRepository');
 const { OrderRepository } = require('../repositories/OrderRepository');
 const { GithubRepository } = require('../repositories/GithubRepository');
 const { GoogleRepository } = require('../repositories/GoogleRepository');
+const { ItemRepository } = require('../repositories/ItemRepository');
 
 // Other imports
 const UserModel = require('../models/User');
 const StateModel = require('../models/State');
+const ParlourModel = require('../models/Parlour');
+const InventoryModel = require('../models/Inventory');
 const { redisClient } = require('./redis');
 
 // Create the container and set the injectionMode to PROXY (which is also the default).
@@ -39,6 +43,7 @@ const awilixInit = () => {
     parlourService: awilix.asClass(ParlourService),
     orderService: awilix.asClass(OrderService),
     utilityService: awilix.asClass(UtilityService),
+    itemService: awilix.asClass(ItemService),
 
     // Repositories go here
     userRepository: awilix.asClass(UserRepository),
@@ -49,10 +54,13 @@ const awilixInit = () => {
     districtRepository: awilix.asClass(DistrictRepository),
     parlourRepository: awilix.asClass(ParlourRepository),
     orderRepository: awilix.asClass(OrderRepository),
+    itemRepository: awilix.asClass(ItemRepository),
 
     // Other stuff goes here
     UserModel: awilix.asValue(UserModel),
     StateModel: awilix.asValue(StateModel),
+    ParlourModel: awilix.asValue(ParlourModel),
+    InventoryModel: awilix.asValue(InventoryModel),
     redisClient: awilix.asValue(redisClient)
   });
 };

@@ -2,15 +2,15 @@ const { Container } = require('../../loaders/awilix');
 const { createSuccessDto, parlours: parlourDtos } = require('../../dto');
 
 exports.fetchParlours = async (req, res) => {
-  const { state, district, type } = req.query;
+  const { state, district } = req.query;
 
   const ParlourService = Container.resolve('parlourService');
 
-  const parlours = await ParlourService.fetchAllParlours(state, district, type);
+  const parlours = await ParlourService.fetchAllParlours(state, district);
 
   return res.send(
     createSuccessDto(
-      'Parlours in your location successfully found!',
+      `${parlours.length} parlours found in your location!`,
       parlourDtos.getResponse(parlours)
     )
   );

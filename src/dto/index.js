@@ -5,6 +5,7 @@ const districtDtos = require('./districts');
 const parlourDtos = require('./parlours');
 const orderDtos = require('./orders');
 const userDtos = require('./users');
+const itemDtos = require('./items');
 
 const createSuccessDto = (message, data, metadata) => ({
   success: true,
@@ -43,5 +44,8 @@ module.exports = {
   },
   users: {
     ...userDtos
+  },
+  items: {
+    ...itemDtos
   }
 };
