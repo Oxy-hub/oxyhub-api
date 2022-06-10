@@ -6,7 +6,7 @@ exports.fetchParlourById = async (req, res) => {
 
   const ParlourService = Container.resolve('parlourService');
 
-  const parlour = await ParlourService.fetchParlourById(id);
+  const parlour = await ParlourService.fetchParlourByStoreId(id);
 
   return res.send(
     createSuccessDto(
