@@ -50,9 +50,9 @@ const inventorySchema = new mongoose.Schema(
 inventorySchema.virtual('cylinderType').get(function () {
   switch (this.type) {
     case 0:
-      return 'Steel';
+      return { value: 0, label: 'Steel' };
     case 1:
-      return 'Aluminium';
+      return { value: 1, label: 'Aluminium' };
 
     default:
       return null;
