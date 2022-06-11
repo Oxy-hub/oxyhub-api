@@ -3,6 +3,26 @@ const config = require('../config');
 
 const autoIndex = config.mode !== 'production';
 
+const variantSchema = new mongoose.Schema({
+  name: String,
+  sku: String,
+  quantity: Number,
+  height: String,
+  waterCapacity: String,
+  oxygenCapacity: String,
+  price: {
+    sale: Number,
+    rent: Number
+  }
+});
+
+// eslint-disable-next-line func-names
+variantSchema.virtual('availability').get(function () {
+  return this.quantity > 0;
+});
+
+variantSchema.set('toJSON', { virtuals: true });
+
 const inventorySchema = new mongoose.Schema(
   {
     storeId: {
@@ -21,23 +41,25 @@ const inventorySchema = new mongoose.Schema(
       enum: [0, 1],
       required: true
     },
-    variants: [
-      {
-        name: String,
-        sku: String,
-        quanity: Number,
-        height: String,
-        waterCapacity: String,
-        oxygenCapacity: String,
-        price: {
-          sale: Number,
-          rent: Number
-        }
-      }
-    ]
+    variants: { type: [variantSchema] }
   },
   { autoIndex }
 );
+
+// eslint-disable-next-line func-names
+inventorySchema.virtual('cylinderType').get(function () {
+  switch (this.type) {
+    case 0:
+      return 'Steel';
+    case 1:
+      return 'Aluminium';
+
+    default:
+      return null;
+  }
+});
+
+inventorySchema.set('toJSON', { virtuals: true });
 
 const Inventory = mongoose.model('Inventory', inventorySchema);
 
