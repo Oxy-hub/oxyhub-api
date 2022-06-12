@@ -24,6 +24,7 @@ const { ItemRepository } = require('../repositories/ItemRepository');
 // Other imports
 const UserModel = require('../models/User');
 const StateModel = require('../models/State');
+const OrderModel = require('../models/Order');
 const ParlourModel = require('../models/Parlour');
 const InventoryModel = require('../models/Inventory');
 const { redisClient } = require('./redis');
@@ -58,6 +59,7 @@ const awilixInit = () => {
 
     // Other stuff goes here
     UserModel: awilix.asValue(UserModel),
+    OrderModel: awilix.asValue(OrderModel),
     StateModel: awilix.asValue(StateModel),
     ParlourModel: awilix.asValue(ParlourModel),
     InventoryModel: awilix.asValue(InventoryModel),
