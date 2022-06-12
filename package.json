@@ -34,6 +34,7 @@
     "mongo-seeding": "^3.7.1",
     "mongoose": "^5.13.14",
     "morgan": "^1.10.0",
+    "nanoid": "^3.3.4",
     "nodemon": "^2.0.15",
     "redis": "^4.0.6",
     "redis-mock": "^0.56.3",
