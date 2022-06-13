@@ -1,9 +1,10 @@
-const postRequest = require('./postRequest');
-const postResponse = require('./postResponse');
-const getResponse = require('./getResponse');
+const postRequest = require('./request.post');
+const postResponse = require('./response.post');
+const putRequest = require('./request.put');
 
 module.exports = {
   postRequest,
   postResponse,
-  getResponse
+  putRequest
+  // getResponse
 };

@@ -14,6 +14,12 @@ class ItemService {
 
     return items;
   }
+
+  async fetchProduct(storeId, productId) {
+    const product = await this.itemRepository.getProduct(storeId, productId);
+
+    return product;
+  }
 }
 
 exports.ItemService = ItemService;
