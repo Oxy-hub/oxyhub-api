@@ -27,6 +27,7 @@ const StateModel = require('../models/State');
 const OrderModel = require('../models/Order');
 const ParlourModel = require('../models/Parlour');
 const InventoryModel = require('../models/Inventory');
+const razorpay = require('./razorpay');
 const { redisClient } = require('./redis');
 
 // Create the container and set the injectionMode to PROXY (which is also the default).
@@ -63,7 +64,8 @@ const awilixInit = () => {
     StateModel: awilix.asValue(StateModel),
     ParlourModel: awilix.asValue(ParlourModel),
     InventoryModel: awilix.asValue(InventoryModel),
-    redisClient: awilix.asValue(redisClient)
+    redisClient: awilix.asValue(redisClient),
+    razorpay: awilix.asValue(razorpay)
   });
 };
 
