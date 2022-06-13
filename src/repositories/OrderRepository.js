@@ -76,7 +76,7 @@ class OrderRepository {
   }
 
   async updateOrder(filter, newValue) {
-    await this.OrderModel.findOneAndUpdate(filter, newValue).exec();
+    return this.OrderModel.findOneAndUpdate(filter, newValue).exec();
   }
 
   async fetchOrderByRazorpayId(razorpayOrderId) {
@@ -87,18 +87,15 @@ class OrderRepository {
     return order[0];
   }
 
-  async updatePayment(razorpay) {
-    await this.updateOrder(
+  async updatePayment(prevRzpOrderId, razorpay) {
+    return this.updateOrder(
       {
-        'razorpay.orderId': razorpay.razorpay_order_id
+        'razorpay.orderId': prevRzpOrderId
       },
       {
-        razorpay: {
-          status: 1,
-          orderId: razorpay.razorpay_order_id,
-          signature: razorpay.razorpay_signature,
-          paymentId: razorpay.razorpay_payment_id
-        }
+        'razorpay.status': 1,
+        'razorpay.signature': razorpay.razorpay_signature,
+        'razorpay.paymentId': razorpay.razorpay_payment_id
       }
     );
   }
