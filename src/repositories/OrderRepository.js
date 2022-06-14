@@ -70,7 +70,9 @@ class OrderRepository {
   }
 
   async readOrders(filter) {
-    const orders = await this.OrderModel.find(filter).exec();
+    const orders = await this.OrderModel.find(filter)
+      .sort({ createdAt: -1 })
+      .exec();
 
     return orders;
   }
