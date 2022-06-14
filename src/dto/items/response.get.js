@@ -4,10 +4,19 @@ module.exports = items => ({
     product_id: productId,
     cylinder_type: cylinderType,
     variants: variants.map(
-      ({ sku, name, height, price, waterCapacity, oxygenCapacity }) => ({
+      ({
         sku,
         name,
         height,
+        price,
+        availability,
+        waterCapacity,
+        oxygenCapacity
+      }) => ({
+        sku,
+        name,
+        height,
+        availability,
         waterCapacity,
         oxygenCapacity,
         price
