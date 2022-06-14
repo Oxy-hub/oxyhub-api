@@ -103,6 +103,12 @@ class OrderService {
     // Updated payment info for the existing order
     await this.orderRepository.updatePayment(order.razorpay.orderId, razorpay);
   }
+
+  async fetchOrders(userId) {
+    const orders = await this.orderRepository.fetchAllOrders(userId);
+
+    return orders;
+  }
 }
 
 exports.OrderService = OrderService;

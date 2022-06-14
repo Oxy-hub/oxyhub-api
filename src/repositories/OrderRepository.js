@@ -99,6 +99,12 @@ class OrderRepository {
       }
     );
   }
+
+  async fetchAllOrders(userId) {
+    return this.readOrders({
+      userId
+    });
+  }
 }
 
 exports.OrderRepository = OrderRepository;

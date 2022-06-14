@@ -3,6 +3,8 @@ const { isAuth, validateDto } = require('../middlewares');
 const { orders } = require('../dto');
 
 module.exports = (router, controllers = orderControllers) => {
+  router.get('/', isAuth, controllers.fetchOrders);
+
   router.post(
     '/',
     isAuth,
