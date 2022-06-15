@@ -1,8 +1,10 @@
 const { createOrder } = require('./createOrder');
-const { viewOrders } = require('./viewOrders');
+const { confirmOrder } = require('./confirmOrder');
+const { fetchOrders } = require('./fetchOrders');
 const wrapAsync = require('../../utils/wrapAsync');
 
 module.exports = {
+  fetchOrders: wrapAsync(fetchOrders),
   createOrder: wrapAsync(createOrder),
-  viewOrders: wrapAsync(viewOrders)
+  confirmOrder: wrapAsync(confirmOrder)
 };

@@ -13,6 +13,13 @@ class ItemRepository {
       storeId: id
     });
   }
+
+  async getProduct(storeId, productId) {
+    return this.readInventory({
+      storeId,
+      productId
+    });
+  }
 }
 
 exports.ItemRepository = ItemRepository;

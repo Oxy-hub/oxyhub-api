@@ -1,11 +1,23 @@
 const orderControllers = require('../controllers/orders');
-const { validateDto } = require('../middlewares');
+const { isAuth, validateDto } = require('../middlewares');
 const { orders } = require('../dto');
 
 module.exports = (router, controllers = orderControllers) => {
-  router.post('/', validateDto(orders.postRequest), controllers.createOrder);
+  router.get('/', isAuth, controllers.fetchOrders);
 
-  router.get('/', controllers.viewOrders);
+  router.post(
+    '/',
+    isAuth,
+    validateDto(orders.postRequest),
+    controllers.createOrder
+  );
+
+  router.put(
+    '/',
+    isAuth,
+    validateDto(orders.putRequest),
+    controllers.confirmOrder
+  );
 
   return router;
 };

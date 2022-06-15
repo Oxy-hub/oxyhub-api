@@ -33,6 +33,10 @@ module.exports = {
       refreshToken: process.env.REFRESH_TOKEN_EXPIRY_3D_MS
     }
   },
+  razorpay: {
+    keyId: process.env.RAZORPAY_KEY_ID,
+    keySecret: process.env.RAZORPAY_KEY_SECRET
+  },
   origin: process.env.FRONTEND_ORIGIN,
   apiPrefix: process.env.API_PREFIX,
   apiBaseUrl: process.env.API_BASE_URL

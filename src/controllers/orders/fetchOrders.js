@@ -1,17 +1,16 @@
 const { Container } = require('../../loaders/awilix');
 const { createSuccessDto, orders: orderDtos } = require('../../dto');
 
-exports.viewOrders = async (req, res) => {
-  const { userId } = req;
-
+exports.fetchOrders = async (req, res) => {
+  // Resolve order service
   const OrderService = Container.resolve('orderService');
 
-  // Fetch all the orders for the user
-  const orders = await OrderService.fetchOrders(userId);
+  // Create a new order
+  const orders = await OrderService.fetchOrders(req.userId);
 
   return res.send(
     createSuccessDto(
-      `${orders.length} orders found for the user!`,
+      `${orders.length} were found.`,
       orderDtos.getResponse(orders)
     )
   );
