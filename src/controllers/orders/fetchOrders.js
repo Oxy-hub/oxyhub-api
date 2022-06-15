@@ -6,7 +6,7 @@ exports.fetchOrders = async (req, res) => {
   const OrderService = Container.resolve('orderService');
 
   // Create a new order
-  const orders = await OrderService.fetchOrders('626ac0394ddbb4001d050ea4');
+  const orders = await OrderService.fetchOrders(req.userId);
 
   return res.send(
     createSuccessDto(
